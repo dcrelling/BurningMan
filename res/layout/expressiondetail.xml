@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:id="@+id/EDScrollView01"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="@color/White">
+	<TableLayout android:id="@+id/EDTableLayout01"
+		android:background="@color/White" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		
+		<TableRow android:id="@+id/EDTableRow01" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewLbl1" android:id="@+id/EDTextViewLbl1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow02" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewDta1" android:id="@+id/EDTextViewDta1"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow03" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewLbl2" android:id="@+id/EDTextViewLbl2"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow04" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewDta2"
+				android:id="@+id/EDTextViewDta2" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:textColor="#000000"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow05" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewLbl3" android:id="@+id/EDTextViewLbl3"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow06" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewDta3" android:id="@+id/EDTextViewDta3"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow07" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewLbl4" android:id="@+id/EDTextViewLbl4"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow08" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewDta4"
+				android:id="@+id/EDTextViewDta4" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:textColor="#000000"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow09" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewLbl5" android:id="@+id/EDTextViewLbl5"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/TableRow10" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@+id/EDTextViewDta5" android:id="@+id/EDTextViewDta5"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:textColor="#000000" android:textStyle="bold|italic"></TextView>
+		</TableRow>
+		
+		<TableRow android:id="@+id/EDTableRow11" android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<Button android:text="Add To Favorites" android:id="@+id/ButtonFavorite"
+				android:layout_width="wrap_content" android:layout_height="wrap_content" android:gravity="bottom"></Button>
+		</TableRow>
+		
+	</TableLayout>
+</ScrollView>

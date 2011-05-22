@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" android:background="@color/White">
+
+     <ImageButton
+     android:layout_width="120dip"
+     android:layout_height="120dip"
+     android:layout_gravity="left|top"
+     android:layout_margin="15dip"
+     android:id="@+id/ArtButton01" android:clickable="true" android:background="@color/White" android:src="@drawable/art_front"/>          
+             
+      <ImageButton
+     android:layout_width="120dip"
+     android:layout_height="120dip"
+     android:layout_gravity="right|top"
+     android:layout_margin="15dip"
+     android:id="@+id/EventsButton02" android:background="@color/White" android:clickable="true" android:src="@drawable/event_front2"/>     
+     
+      <ImageButton
+     android:layout_width="120dip"
+     android:layout_height="120dip"
+     android:layout_margin="15dip"
+     android:id="@+id/CampButton03" android:background="@color/White" android:src="@drawable/camp_front" android:layout_gravity="bottom|left"/>     
+     
+     <ImageButton
+     android:layout_width="120dip"
+     android:layout_height="120dip"
+     android:layout_margin="15dip"
+     android:id="@+id/FavoritesButton04" android:clickable="true" android:background="@color/White" android:src="@drawable/favorties3" android:layout_gravity="bottom|right"/>          
+             
+         
+</FrameLayout>    
