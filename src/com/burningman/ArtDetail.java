@@ -15,6 +15,7 @@ public class ArtDetail extends Activity {
   private Art artItem;
 
   /** Called when the activity is first created. */
+  /** Test Of Git */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
