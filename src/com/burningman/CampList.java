@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Camp;
+import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
 
 public class CampList extends ListActivity {
@@ -54,8 +55,9 @@ public class CampList extends ListActivity {
       // A Simple JSONArray Creation
       JSONArray jsonCampArray = new JSONArray(page);
       // A Simple JSONObject Parsing
+      Camp camp = null;
       for (int i = 0; i < jsonCampArray.length(); i++) {
-        Camp camp = new Camp();
+        camp = new Camp();
         JSONObject jsonCampObject = (JSONObject) jsonCampArray.get(i);
         camp.setId(jsonCampObject.optString("id"));
         camp.setName(jsonCampObject.optString("name"));

@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Event;
+import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
 
 public class EventList extends ListActivity {
@@ -53,8 +54,9 @@ public class EventList extends ListActivity {
       // A Simple JSONArray Creation
       JSONArray jsonEventArray = new JSONArray(page);
       // A Simple JSONObject Parsing
+      Event event = null;
       for (int i = 0; i < jsonEventArray.length(); i++) {
-        Event event = new Event();
+        event = new Event();
         JSONObject jsonEventObject = (JSONObject) jsonEventArray.get(i);
         event.setTitle(jsonEventObject.optString("title"));
         event.setDescription(jsonEventObject.optString("description"));

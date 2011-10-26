@@ -17,6 +17,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
+import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
 
 public class ArtList extends ListActivity {
@@ -54,8 +55,9 @@ public class ArtList extends ListActivity {
       // A Simple JSONArray Creation
       JSONArray jsonArtArray = new JSONArray(page);
       // A Simple JSONObject Parsing
+      Art art = null;
       for (int i = 0; i < jsonArtArray.length(); i++) {
-        Art art = new Art();
+        art = new Art();
         JSONObject jsonArtObject = (JSONObject) jsonArtArray.get(i);
         art.setArtist(jsonArtObject.optString("artist"));
         art.setCircular_street(jsonArtObject.optString("circular_street"));

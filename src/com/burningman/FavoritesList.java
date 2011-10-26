@@ -16,6 +16,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
+import com.burningman.beans.Expression;
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.BurningmanDBAdapter.FavoritesMetaData;
 
@@ -34,13 +35,15 @@ public class FavoritesList extends ListActivity {
     Cursor favoritesCursor = dbAdapter.getAllFavorites();
     if (favoritesCursor != null) {
       if (favoritesCursor.getCount() > 0) {
+        Art art = null;
+        Camp camp = null;
         favoritesList = new ArrayList<Expression>();
         favoritesCursor.moveToFirst();
         while (favoritesCursor.isAfterLast() == false) {
           String expressionType = favoritesCursor.getString(favoritesCursor
               .getColumnIndex(FavoritesMetaData.FAVORITE_TYPE));
           if (expressionType.equalsIgnoreCase("art")) {
-            Art art = new Art();
+            art = new Art();
             art.setDescription(favoritesCursor.getString(favoritesCursor
                 .getColumnIndex(FavoritesMetaData.FAVORITE_DESCRIPTION)));
             art.setId(favoritesCursor.getString(favoritesCursor
@@ -51,7 +54,7 @@ public class FavoritesList extends ListActivity {
             art.setUrl(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_URL)));
             favoritesList.add(art);
           } else if (expressionType.equalsIgnoreCase("camp")) {
-            Camp camp = new Camp();
+            camp = new Camp();
             camp.setId(favoritesCursor.getString(favoritesCursor
                 .getColumnIndex(FavoritesMetaData.FAVORITE_EXPRESSION_ID)));
             camp.setName(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_NAME)));

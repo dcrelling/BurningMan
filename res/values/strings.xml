@@ -4,4 +4,9 @@
     <string name="app_name">Burning Man</string>
 
 <color name="White">#FFFFFF</color>
+<string name="art_list">Art</string>
+<string name="event_list">Events</string>
+<string name="camp_list">Camps</string>
+<string name="favorite_list">Favorites</string>
+<string name="map">Map</string>
 </resources>

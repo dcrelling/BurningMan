@@ -3,7 +3,6 @@ package com.burningman.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.burningman.Expression;
 
 public class Camp extends Expression implements Parcelable {
 

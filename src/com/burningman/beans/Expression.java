@@ -1,4 +1,4 @@
-package com.burningman;
+package com.burningman.beans;
 
 public class Expression {
 

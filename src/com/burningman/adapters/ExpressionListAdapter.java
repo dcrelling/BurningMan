@@ -10,11 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.burningman.Expression;
 import com.burningman.R;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
 import com.burningman.beans.Event;
+import com.burningman.beans.Expression;
 
 public class ExpressionListAdapter extends ArrayAdapter<Expression> {
 
