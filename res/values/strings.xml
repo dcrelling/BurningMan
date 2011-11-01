@@ -9,4 +9,8 @@
 <string name="camp_list">Camps</string>
 <string name="favorite_list">Favorites</string>
 <string name="map">Map</string>
+<string name="local_service_started">Local Service Has Started</string>
+<string name="local_service_stopped">The Local Service Has Stopped</string>
+<string name="local_service_connected">local_service_connected</string>
+<string name="local_service_disconnected">local_service_disconnected</string>
 </resources>
