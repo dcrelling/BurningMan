@@ -81,7 +81,14 @@
 				<category android:name="android.intent.category.DEFAULT"></category>
 			</intent-filter>
 		</activity>
+		<activity android:name="HttpLocalServTest">
+			<intent-filter>
+				<action android:name="com.burningman.HttpLocalServTest"></action>
+				<category android:name="android.intent.category.DEFAULT"></category>
+			</intent-filter>
+		</activity>
 		<service android:name="com.burningman.services.HttpLocalServiceBinding"></service>
+		<service android:name="com.burningman.services.HttpLocalService"></service>
 	</application>
 	<uses-sdk android:minSdkVersion="5"/>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>

@@ -19,6 +19,7 @@ import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
+import com.burningman.services.HttpLocalService;
 
 public class ArtList extends ListActivity {
 
@@ -30,6 +31,12 @@ public class ArtList extends ListActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    
+    Intent intent = new Intent(this, HttpLocalService.class);
+    intent.putExtra("URL", ART_URL);
+    this.startService(intent);
+    
+    
     HttpProvider httpProvider = new HttpProvider();
     convertToArtList(httpProvider.getHttpContent(ART_URL, this));
     setContentView(R.layout.expressionlist);

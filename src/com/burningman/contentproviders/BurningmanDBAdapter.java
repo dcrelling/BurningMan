@@ -11,13 +11,21 @@ import android.util.Log;
 public class BurningmanDBAdapter {
 
   public static final String DATABASE_NAME = "burningman";
-  public static final int DATABASE_VERSION = 4;
+  public static final int DATABASE_VERSION = 7;
   public static final String FAVORITES_TABLE_NAME = "favorites";
-  public static final String CREATE_DATABASE = "CREATE TABLE " + FavoritesMetaData.TABLE_NAME + "("
-      + FavoritesMetaData.FAVORITE_PRIMAY_ID + " INTEGER PRIMARY KEY," + FavoritesMetaData.FAVORITE_EXPRESSION_ID
-      + " TEXT, " + FavoritesMetaData.FAVORITE_TYPE + " TEXT, " + FavoritesMetaData.FAVORITE_NAME + " TEXT, "
-      + FavoritesMetaData.FAVORITE_CONTACT_EMAIL + " TEXT, " + FavoritesMetaData.FAVORITE_URL + " TEXT, "
-      + FavoritesMetaData.FAVORITE_DESCRIPTION + " TEXT, " + FavoritesMetaData.CREATED_DATE + " INTEGER)";
+  public static final String REST_REQUEST_TABLE_NAME = "rest_request";
+  
+  public static final String CREATE_FAVORITES_TABLE = "CREATE TABLE " + FavoritesMetaData.TABLE_NAME + "("
+  + FavoritesMetaData.FAVORITE_PRIMAY_ID + " INTEGER PRIMARY KEY," + FavoritesMetaData.FAVORITE_EXPRESSION_ID
+  + " TEXT, " + FavoritesMetaData.FAVORITE_TYPE + " TEXT, " + FavoritesMetaData.FAVORITE_NAME + " TEXT, "
+  + FavoritesMetaData.FAVORITE_CONTACT_EMAIL + " TEXT, " + FavoritesMetaData.FAVORITE_URL + " TEXT, "
+  + FavoritesMetaData.FAVORITE_DESCRIPTION + " TEXT, " + FavoritesMetaData.CREATED_DATE + " TEXT)";
+  
+  public static final String CREATE_REST_REQUEST_TABLE = "CREATE TABLE " + RestRequestMetaData.TABLE_NAME + "("
+  + RestRequestMetaData.REST_REQUEST_PRIMAY_ID + " INTEGER PRIMARY KEY," + RestRequestMetaData.REST_REQUEST_REQUEST_ID + " TEXT,"
+  + RestRequestMetaData.REST_REQUEST_STATUS + " TEXT, " 
+  + RestRequestMetaData.REST_REQUEST_TYPE + " TEXT, " + RestRequestMetaData.REST_REQUEST_VALUE + " TEXT, "
+  + RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE + " TEXT, " + RestRequestMetaData.CREATED_DATE + " TEXT)";
 
   private Context context;
   private SQLiteDatabase db;
@@ -45,6 +53,23 @@ public class BurningmanDBAdapter {
     public static final String CREATED_DATE = "created";
 
   }
+  
+  public static final class RestRequestMetaData {
+
+    private RestRequestMetaData() {
+
+    }
+
+    public static final String TABLE_NAME = "rest_request";
+    public static final String REST_REQUEST_PRIMAY_ID = "id";
+    public static final String REST_REQUEST_REQUEST_ID = "request_id";
+    public static final String REST_REQUEST_STATUS = "status";
+    public static final String REST_REQUEST_TYPE = "type";
+    public static final String REST_REQUEST_VALUE = "content_value";
+    public static final String REST_REQUEST_EXPIRATION_DATE = "expiration_date";
+    public static final String CREATED_DATE = "created";
+
+  }
 
   private static class BurningManDBHelper extends SQLiteOpenHelper {
 
@@ -55,13 +80,15 @@ public class BurningmanDBAdapter {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-      db.execSQL(BurningmanDBAdapter.CREATE_DATABASE);
+      db.execSQL(BurningmanDBAdapter.CREATE_FAVORITES_TABLE);
+      db.execSQL(BurningmanDBAdapter.CREATE_REST_REQUEST_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
       Log.w("Example", "Upgrading database, this will drop tables and recreate.");
       db.execSQL("DROP TABLE IF EXISTS " + FavoritesMetaData.TABLE_NAME);
+      db.execSQL("DROP TABLE IF EXISTS " + RestRequestMetaData.TABLE_NAME);
       onCreate(db);
 
     }
@@ -108,6 +135,19 @@ public class BurningmanDBAdapter {
     initialValues.put(FavoritesMetaData.FAVORITE_URL, url);
     initialValues.put(FavoritesMetaData.FAVORITE_DESCRIPTION, description);
     return db.insert(BurningmanDBAdapter.FAVORITES_TABLE_NAME, null, initialValues);
+
+  }
+  
+//---insert a rest request from burning man web service into the database---
+  public long insertRestRequest(String id, String status, String type, String requestValue) {
+    ContentValues initialValues = new ContentValues();
+    initialValues.put(RestRequestMetaData.REST_REQUEST_REQUEST_ID, id);
+    initialValues.put(RestRequestMetaData.REST_REQUEST_STATUS, status);
+    initialValues.put(RestRequestMetaData.REST_REQUEST_TYPE, type);
+    initialValues.put(RestRequestMetaData.REST_REQUEST_VALUE, requestValue);
+    //initialValues.put(RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE, url);
+    //initialValues.put(RestRequestMetaData.CREATED_DATE, description);
+    return db.insert(BurningmanDBAdapter.REST_REQUEST_TABLE_NAME, null, initialValues);
 
   }
 
