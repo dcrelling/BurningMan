@@ -2,17 +2,29 @@ package com.burningman.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Handler;
 
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
 
 public class HttpLocalService extends IntentService {
+  
+  
+  Intent intent;
+  
+  
   /** 
    * A constructor is required, and must call the super IntentService(String)
    * constructor with a name for the worker thread.
    */
   public HttpLocalService() {
       super("HttpLocalService");
+  }
+  
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    intent = new Intent("com.burningman.test");  
   }
 
   /**
@@ -31,6 +43,10 @@ public class HttpLocalService extends IntentService {
                 dbAdapter.insertRestRequest("1234", "processed", "art", result);
                 dbAdapter.close();
                 dbAdapter = null;
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.putExtra("msg1", "fist message to me yaba daba");
+                broadcastIntent.setAction("com.burningman.test");
+                getBaseContext().sendBroadcast(broadcastIntent);
               } catch (Exception e) {
               }
           }

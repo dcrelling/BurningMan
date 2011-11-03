@@ -7,35 +7,41 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
-import com.burningman.services.HttpLocalService;
+import com.burningman.services.HttpServiceHelper;
 
 public class ArtList extends ListActivity {
 
   private ArrayList<Expression> artList = null;
   private ExpressionListAdapter expressionListAdapter;
-  static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
+  public static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
 
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     
-    Intent intent = new Intent(this, HttpLocalService.class);
-    intent.putExtra("URL", ART_URL);
-    this.startService(intent);
+    //Intent intent = new Intent(this, HttpLocalService.class);
+    //intent.putExtra("URL", ART_URL);
+    //this.startService(intent);
     
+    HttpServiceHelper helper =  new HttpServiceHelper(getBaseContext());
+    helper.startService();
+   
     
     HttpProvider httpProvider = new HttpProvider();
     convertToArtList(httpProvider.getHttpContent(ART_URL, this));
@@ -89,5 +95,5 @@ public class ArtList extends ListActivity {
       // TODO Auto-generated catch block
     }
   }
-
+  
 }
