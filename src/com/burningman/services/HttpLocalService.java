@@ -2,6 +2,9 @@ package com.burningman.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Message;
+import android.os.Messenger;
 
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
@@ -10,8 +13,7 @@ public class HttpLocalService extends IntentService {
   
   
   Intent intent;
-  
-  
+
   /** 
    * A constructor is required, and must call the super IntentService(String)
    * constructor with a name for the worker thread.

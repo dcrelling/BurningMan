@@ -10,7 +10,11 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -20,9 +24,8 @@ import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Expression;
 import com.burningman.contentproviders.BurningmanDBAdapter;
-import com.burningman.contentproviders.HttpProvider;
-import com.burningman.contentproviders.BurningmanDBAdapter.FavoritesMetaData;
 import com.burningman.contentproviders.BurningmanDBAdapter.RestRequestMetaData;
+import com.burningman.services.DBQueryLocalService;
 import com.burningman.services.HttpServiceHelper;
 
 public class ArtList extends ListActivity {
@@ -31,11 +34,47 @@ public class ArtList extends ListActivity {
   private ExpressionListAdapter expressionListAdapter;
   private static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
   private static final String TAG = "art";
+  
+ 
+    
+    private  Handler myHandler = new Handler(){
+      @Override
+      public void handleMessage(Message msg) {
+          if(msg.getData().getBoolean("success")){
+            String artRequestValue = msg.getData().getString("resultValue");
+            convertToArtList(artRequestValue);
+            displayArtList();
+          }else{
+            consumeRestService();
+            getArtRequestFromDB();
+          }
+          super.handleMessage(msg);
+      }
+  };       
+    
+    
+  private void displayArtList(){
+    expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, artList);
+    setListAdapter(expressionListAdapter);
+  }
+  
+  private void consumeRestService(){
+    HttpServiceHelper helper =  new HttpServiceHelper();
+    helper.consumeRestService(ArtList.ART_URL, this.getBaseContext());
+  }
+  
+  
 
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    getArtRequestFromDB();
+    
+
+    
+    
+    /*
     String artRequestValue = getArtRequestFromDB();
     if(artRequestValue != null){
       convertToArtList(artRequestValue);
@@ -43,16 +82,17 @@ public class ArtList extends ListActivity {
       HttpServiceHelper helper =  new HttpServiceHelper();
       helper.consumeRestService(ArtList.ART_URL, this.getBaseContext());
     }
+    */
     
     //HttpProvider httpProvider = new HttpProvider();
     //convertToArtList(httpProvider.getHttpContent(ART_URL, this));
+    
     setContentView(R.layout.expressionlist);
-    expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, artList);
-    setListAdapter(expressionListAdapter);
+    //expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, artList);
+    //setListAdapter(expressionListAdapter);
 
     ListView artListView = getListView();
     artListView.setOnItemClickListener(new OnItemClickListener() {
-
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int postion, long id) {
         Intent intent = new Intent("com.burningman.ArtDetail");
@@ -97,6 +137,7 @@ public class ArtList extends ListActivity {
     }
   }
   
+  /*
   public String getArtRequestFromDB(){
     BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(this);
     dbAdapter.open();
@@ -114,6 +155,13 @@ public class ArtList extends ListActivity {
     dbAdapter.close();
     dbAdapter = null;
     return null;
+  } */
+  
+  private void getArtRequestFromDB(){
+    Intent dbLookupIntent = new Intent(this.getBaseContext(), DBQueryLocalService.class);
+    dbLookupIntent.putExtra("handler", new Messenger(this.myHandler));
+    dbLookupIntent.putExtra("type", ArtList.TAG);  
+    this.getBaseContext().startService(dbLookupIntent);
   }
   
 }

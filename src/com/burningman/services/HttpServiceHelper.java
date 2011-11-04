@@ -4,6 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -24,14 +28,15 @@ public class HttpServiceHelper {
                   Toast.LENGTH_LONG).show();
              }
          }; 
-  
+
   
   public void consumeRestService(String url, Context context){
-    context.registerReceiver(myReceiver, createBroadcastFilter());
-    context.startService(createHttpServiceIntent(url, context));
+   context.registerReceiver(myReceiver, createHttpBroadcastFilter());
+   context.startService(createHttpServiceIntent(url, context));
+ 
   }
   
-  private IntentFilter createBroadcastFilter(){
+  private IntentFilter createHttpBroadcastFilter(){
     IntentFilter broadcastFilter = new IntentFilter();
     broadcastFilter.addAction("com.burningman.test");
     return broadcastFilter;
