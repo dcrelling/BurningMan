@@ -10,12 +10,11 @@ import android.widget.Toast;
 
 public class HttpServiceHelper {
   
-  Context mContext;
+  //Context mContext = null;
   
-  public HttpServiceHelper(Context context){
-    mContext = context;
+  public HttpServiceHelper(){
+   // mContext = context;
   }
-  
   
   private BroadcastReceiver myReceiver = new BroadcastReceiver() {
               
@@ -26,16 +25,22 @@ public class HttpServiceHelper {
              }
          }; 
   
- 
-  public void startService(){
-    IntentFilter filter = new IntentFilter();
-    filter.addAction("com.burningman.test");
-    mContext.registerReceiver(myReceiver, filter);
-    Intent intent = new Intent(mContext, HttpLocalService.class);
-    intent.putExtra("URL", "http://earth.burningman.com/api/0.1/2009/art/");
-    mContext.startService(intent);
-    
-    
+  
+  public void consumeRestService(String url, Context context){
+    context.registerReceiver(myReceiver, createBroadcastFilter());
+    context.startService(createHttpServiceIntent(url, context));
   }
-         
+  
+  private IntentFilter createBroadcastFilter(){
+    IntentFilter broadcastFilter = new IntentFilter();
+    broadcastFilter.addAction("com.burningman.test");
+    return broadcastFilter;
+  }
+  
+  private Intent createHttpServiceIntent(String url, Context context){
+    Intent httpServiceIntent = new Intent(context, HttpLocalService.class);
+    httpServiceIntent.putExtra("URL", url);
+    return httpServiceIntent;
+  }
+  
 }

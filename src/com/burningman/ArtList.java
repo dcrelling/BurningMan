@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -18,30 +19,33 @@ import android.widget.ListView;
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Expression;
+import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
+import com.burningman.contentproviders.BurningmanDBAdapter.FavoritesMetaData;
+import com.burningman.contentproviders.BurningmanDBAdapter.RestRequestMetaData;
 import com.burningman.services.HttpServiceHelper;
 
 public class ArtList extends ListActivity {
 
   private ArrayList<Expression> artList = null;
   private ExpressionListAdapter expressionListAdapter;
-  public static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
+  private static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
+  private static final String TAG = "art";
 
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    String artRequestValue = getArtRequestFromDB();
+    if(artRequestValue != null){
+      convertToArtList(artRequestValue);
+    }else{ 
+      HttpServiceHelper helper =  new HttpServiceHelper();
+      helper.consumeRestService(ArtList.ART_URL, this.getBaseContext());
+    }
     
-    //Intent intent = new Intent(this, HttpLocalService.class);
-    //intent.putExtra("URL", ART_URL);
-    //this.startService(intent);
-    
-    HttpServiceHelper helper =  new HttpServiceHelper(getBaseContext());
-    helper.startService();
-   
-    
-    HttpProvider httpProvider = new HttpProvider();
-    convertToArtList(httpProvider.getHttpContent(ART_URL, this));
+    //HttpProvider httpProvider = new HttpProvider();
+    //convertToArtList(httpProvider.getHttpContent(ART_URL, this));
     setContentView(R.layout.expressionlist);
     expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, artList);
     setListAdapter(expressionListAdapter);
@@ -91,6 +95,25 @@ public class ArtList extends ListActivity {
     } catch (JSONException e) {
       // TODO Auto-generated catch block
     }
+  }
+  
+  public String getArtRequestFromDB(){
+    BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(this);
+    dbAdapter.open();
+    Cursor ArtListCursor = dbAdapter.getRestRequests(ArtList.TAG);
+    if (ArtListCursor != null) {
+      if (ArtListCursor.getCount() > 0) {
+        ArtListCursor.moveToFirst();
+        String artRequestValue = ArtListCursor.getString(ArtListCursor
+            .getColumnIndex(RestRequestMetaData.REST_REQUEST_VALUE));
+        dbAdapter.close();
+        dbAdapter = null;
+        return artRequestValue;
+      }
+    }
+    dbAdapter.close();
+    dbAdapter = null;
+    return null;
   }
   
 }

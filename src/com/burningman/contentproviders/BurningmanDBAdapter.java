@@ -138,6 +138,13 @@ public class BurningmanDBAdapter {
 
   }
   
+//---retrieves all the favorites---
+  public Cursor getRestRequests(String type) {
+    return db.query(BurningmanDBAdapter.REST_REQUEST_TABLE_NAME, new String[]{RestRequestMetaData.REST_REQUEST_PRIMAY_ID,
+        RestRequestMetaData.REST_REQUEST_REQUEST_ID, RestRequestMetaData.REST_REQUEST_STATUS, RestRequestMetaData.REST_REQUEST_TYPE,
+        RestRequestMetaData.REST_REQUEST_VALUE, RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE, RestRequestMetaData.CREATED_DATE}, RestRequestMetaData.REST_REQUEST_TYPE + "=" + "'" + type +"'", null, null, null, null);
+  }
+  
 //---insert a rest request from burning man web service into the database---
   public long insertRestRequest(String id, String status, String type, String requestValue) {
     ContentValues initialValues = new ContentValues();
