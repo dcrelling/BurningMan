@@ -2,7 +2,6 @@ package com.burningman.services;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.Handler;
 
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
