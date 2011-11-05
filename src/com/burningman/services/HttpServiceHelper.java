@@ -11,13 +11,14 @@ import android.widget.Toast;
 public class HttpServiceHelper {
   
   Context mContext;
+  IntentFilter httpServiceBroadcastfilter;
   
   public HttpServiceHelper(Context context){
     mContext = context;
   }
   
   
-  private BroadcastReceiver myReceiver = new BroadcastReceiver() {
+  private BroadcastReceiver myHttpServiceReceiver = new BroadcastReceiver() {
               
             @Override
              public void onReceive(Context context, Intent intent) {
@@ -28,14 +29,12 @@ public class HttpServiceHelper {
   
  
   public void startService(){
-    IntentFilter filter = new IntentFilter();
-    filter.addAction("com.burningman.test");
-    mContext.registerReceiver(myReceiver, filter);
-    Intent intent = new Intent(mContext, HttpLocalService.class);
-    intent.putExtra("URL", "http://earth.burningman.com/api/0.1/2009/art/");
-    mContext.startService(intent);
-    
-    
+	httpServiceBroadcastfilter = new IntentFilter();
+    httpServiceBroadcastfilter.addAction("com.burningman.test");
+    mContext.registerReceiver(myHttpServiceReceiver, httpServiceBroadcastfilter);
+    Intent httpServiceintent = new Intent(mContext, HttpLocalService.class);
+    httpServiceintent.putExtra("URL", "http://earth.burningman.com/api/0.1/2009/art/");
+    mContext.startService(httpServiceintent);
   }
          
 }

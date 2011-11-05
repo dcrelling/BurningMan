@@ -34,14 +34,16 @@ public class HttpLocalService extends IntentService {
   @Override
   protected void onHandleIntent(Intent intent) {
     HttpProvider httpProvider = new HttpProvider();
-    BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(this.getBaseContext());
+    HttpServiceProcessor httpServiceProcessor = new HttpServiceProcessor(this.getBaseContext());
+    //BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(this.getBaseContext());
           synchronized (this) {
               try {
-                String result = httpProvider.getHttpContent(intent.getStringExtra("URL"), this);
-                dbAdapter.open();
+            	 //httpServiceProcessor.doGetDBInsert(httpProvider.getHttpContent(intent.getStringExtra("URL"), this));
+            	  httpServiceProcessor.process();
+                /*dbAdapter.open();
                 dbAdapter.insertRestRequest("1234", "processed", "art", result);
                 dbAdapter.close();
-                dbAdapter = null;
+                dbAdapter = null; */
                 Intent broadcastIntent = new Intent();
                 broadcastIntent.putExtra("msg1", "fist message to me yaba daba");
                 broadcastIntent.setAction("com.burningman.test");
