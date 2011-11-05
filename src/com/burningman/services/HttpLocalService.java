@@ -10,8 +10,7 @@ public class HttpLocalService extends IntentService {
   
   
   Intent intent;
-  
-  
+
   /** 
    * A constructor is required, and must call the super IntentService(String)
    * constructor with a name for the worker thread.

@@ -4,19 +4,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
+import android.util.Log;
 import android.widget.Toast;
 
 
 
 public class HttpServiceHelper {
   
-  Context mContext;
-  IntentFilter httpServiceBroadcastfilter;
+  //Context mContext = null;
   
-  public HttpServiceHelper(Context context){
-    mContext = context;
+  public HttpServiceHelper(){
+   // mContext = context;
   }
-  
   
   private BroadcastReceiver myHttpServiceReceiver = new BroadcastReceiver() {
               
@@ -26,15 +28,23 @@ public class HttpServiceHelper {
                   Toast.LENGTH_LONG).show();
              }
          }; 
+
   
+  public void consumeRestService(String url, Context context){
+   context.registerReceiver(myReceiver, createHttpBroadcastFilter());
+   context.startService(createHttpServiceIntent(url, context));
  
-  public void startService(){
-	httpServiceBroadcastfilter = new IntentFilter();
-    httpServiceBroadcastfilter.addAction("com.burningman.test");
-    mContext.registerReceiver(myHttpServiceReceiver, httpServiceBroadcastfilter);
-    Intent httpServiceintent = new Intent(mContext, HttpLocalService.class);
-    httpServiceintent.putExtra("URL", "http://earth.burningman.com/api/0.1/2009/art/");
-    mContext.startService(httpServiceintent);
+    
+  private IntentFilter createHttpBroadcastFilter(){
+    IntentFilter broadcastFilter = new IntentFilter();
+    broadcastFilter.addAction("com.burningman.test");
+    return broadcastFilter;
   }
-         
+  
+  private Intent createHttpServiceIntent(String url, Context context){
+    Intent httpServiceIntent = new Intent(context, HttpLocalService.class);
+    httpServiceIntent.putExtra("URL", url);
+    return httpServiceIntent;
+  }
+  
 }
