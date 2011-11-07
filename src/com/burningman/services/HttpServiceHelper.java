@@ -4,21 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
-import android.os.Messenger;
-import android.util.Log;
 import android.widget.Toast;
 
 
 
 public class HttpServiceHelper {
   
-  //Context mContext = null;
-  
-  public HttpServiceHelper(){
-   // mContext = context;
-  }
   
   private BroadcastReceiver myHttpServiceReceiver = new BroadcastReceiver() {
               
@@ -31,8 +22,9 @@ public class HttpServiceHelper {
 
   
   public void consumeRestService(String url, Context context){
-   context.registerReceiver(myReceiver, createHttpBroadcastFilter());
+   context.registerReceiver(myHttpServiceReceiver, createHttpBroadcastFilter());
    context.startService(createHttpServiceIntent(url, context));
+  }
  
     
   private IntentFilter createHttpBroadcastFilter(){

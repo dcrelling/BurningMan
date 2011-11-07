@@ -12,17 +12,16 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Event;
-import com.burningman.beans.Expression;
 import com.burningman.contentproviders.HttpProvider;
 
 public class EventList extends ListActivity {
 
-  private ArrayList<Expression> eventList = null;
+  private ArrayList<Parcelable> eventList = null;
   private ExpressionListAdapter expressionListAdapter;
   static final String EVENT_URL = "http://earth.burningman.com/api/0.1/2009/event/";
 
@@ -49,7 +48,7 @@ public class EventList extends ListActivity {
   }
 
   private void convertToEventList(String page) {
-    eventList = new ArrayList<Expression>();
+    eventList = new ArrayList<Parcelable>();
     try {
       // A Simple JSONArray Creation
       JSONArray jsonEventArray = new JSONArray(page);

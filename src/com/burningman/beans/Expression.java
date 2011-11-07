@@ -1,8 +1,11 @@
 package com.burningman.beans;
 
+
 public class Expression {
 
-  private String id;
+
+
+private String id;
   private String contact_email;
   private String description;
   private String name;
@@ -69,5 +72,7 @@ public class Expression {
   public void setUrl(String url) {
     this.url = url;
   }
+  
+  
 
 }

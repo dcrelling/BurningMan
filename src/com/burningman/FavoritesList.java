@@ -9,20 +9,19 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
-import com.burningman.beans.Expression;
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.BurningmanDBAdapter.FavoritesMetaData;
 
 public class FavoritesList extends ListActivity {
 
-  private ArrayList<Expression> favoritesList = null;
+  private ArrayList<Parcelable> favoritesList = null;
   private ExpressionListAdapter expressionListAdapter;
 
   /** Called when the activity is first created. */
@@ -37,7 +36,7 @@ public class FavoritesList extends ListActivity {
       if (favoritesCursor.getCount() > 0) {
         Art art = null;
         Camp camp = null;
-        favoritesList = new ArrayList<Expression>();
+        favoritesList = new ArrayList<Parcelable>();
         favoritesCursor.moveToFirst();
         while (favoritesCursor.isAfterLast() == false) {
           String expressionType = favoritesCursor.getString(favoritesCursor

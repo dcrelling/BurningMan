@@ -3,6 +3,7 @@ package com.burningman.adapters;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +15,12 @@ import com.burningman.R;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
 import com.burningman.beans.Event;
-import com.burningman.beans.Expression;
 
-public class ExpressionListAdapter extends ArrayAdapter<Expression> {
+public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
 
-  private ArrayList<Expression> items;
+  private ArrayList<Parcelable> items;
 
-  public ExpressionListAdapter(Context context, int textViewResourceId, ArrayList<Expression> items) {
+  public ExpressionListAdapter(Context context, int textViewResourceId, ArrayList<Parcelable> items) {
     super(context, textViewResourceId, items);
     this.items = items;
   }
