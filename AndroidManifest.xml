@@ -76,7 +76,7 @@
 			</intent-filter>
 		</activity>
 		<service android:name="com.burningman.services.HttpLocalService"></service>
-		<service android:name=".services.DBLocalService"></service>
+		<service android:name="com.burningman.services.DBLocalService"></service>
 	</application>
 	<uses-sdk android:minSdkVersion="5"/>
 	<uses-permission android:name="android.permission.INTERNET"></uses-permission>

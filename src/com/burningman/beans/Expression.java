@@ -3,8 +3,9 @@ package com.burningman.beans;
 
 public class Expression {
 
-
-
+  public static final String EXPRESSION_TYPE_KEY = "EXPRESSION_TYPE";
+  public static final String EXPRESSION_LIST_KEY = "EXPRESSION_LIST";
+  
 private String id;
   private String contact_email;
   private String description;

@@ -14,6 +14,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.burningman.adapters.ExpressionListAdapter;
+import com.burningman.beans.Expression;
+import com.burningman.services.DBLocalService;
 import com.burningman.services.DBServiceHelper;
 import com.burningman.services.HttpServiceHelper;
 
@@ -26,11 +28,11 @@ public class ArtList extends ListActivity {
   
  
     
-    private  Handler myHandler = new Handler(){
+    private  Handler myArtListHandler = new Handler(){
       @Override
       public void handleMessage(Message msg) {
-          if(msg.getData().getBoolean("success")){
-        	artList = msg.getData().getParcelableArrayList("expressionList");
+          if(msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)){
+        	artList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
             displayArtList();
           }else{
             consumeRestService();
@@ -71,8 +73,8 @@ public class ArtList extends ListActivity {
 
   private void getConvertRequestFromDB(){
     DBServiceHelper dBServiceHelper = new DBServiceHelper();
-    dBServiceHelper.registerCallBackHandler(myHandler);
-    dBServiceHelper.executeOperation(ArtList.TAG, this.getBaseContext(), "getConvertRequest");
+    dBServiceHelper.registerCallBackHandler(myArtListHandler);
+    dBServiceHelper.executeOperation(ArtList.TAG, this.getBaseContext(), DBServiceHelper.GET_CONV_REQUEST_DATA);
   }
   
 }
