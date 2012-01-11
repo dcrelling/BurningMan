@@ -11,7 +11,7 @@ import android.util.Log;
 public class BurningmanDBAdapter {
 
   public static final String DATABASE_NAME = "burningman";
-  public static final int DATABASE_VERSION = 7;
+  public static final int DATABASE_VERSION = 9;
   public static final String FAVORITES_TABLE_NAME = "favorites";
   public static final String REST_REQUEST_TABLE_NAME = "rest_request";
   

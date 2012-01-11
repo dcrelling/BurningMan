@@ -30,7 +30,7 @@ public class EventList extends ListActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     HttpProvider httpProvider = new HttpProvider();
-    convertToEventList(httpProvider.getHttpContent(EVENT_URL, this));
+    //convertToEventList(httpProvider.getHttpContent(EVENT_URL, this));
     setContentView(R.layout.expressionlist);
     expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, eventList);
     setListAdapter(expressionListAdapter);

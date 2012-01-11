@@ -17,6 +17,7 @@ import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Expression;
 import com.burningman.services.DBLocalService;
 import com.burningman.services.DBServiceHelper;
+import com.burningman.services.HttpLocalService;
 import com.burningman.services.HttpServiceHelper;
 
 public class ArtList extends ListActivity {
@@ -28,18 +29,27 @@ public class ArtList extends ListActivity {
   
  
     
-    private  Handler myArtListHandler = new Handler(){
+    private  Handler myArtListDBHandler = new Handler(){
       @Override
       public void handleMessage(Message msg) {
-          if(msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)){
-        	artList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
-            displayArtList();
-          }else{
-            consumeRestService();
+        super.handleMessage(msg);  
+        if(msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)){
+          artList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
+          displayArtList();
+        }else{
+          consumeRestService();
+        } 
+      }
+  };       
+  
+  private  Handler myArtListHTTPHandler = new Handler(){
+    @Override
+    public void handleMessage(Message msg) {
+        super.handleMessage(msg);  
+        if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY)){
             getConvertRequestFromDB();
           }
-          super.handleMessage(msg);
-      }
+        }  
   };       
     
     
@@ -49,8 +59,9 @@ public class ArtList extends ListActivity {
   }
   
   private void consumeRestService(){
-    HttpServiceHelper helper =  new HttpServiceHelper();
-    helper.consumeRestService(ArtList.ART_URL, this.getBaseContext());
+    HttpServiceHelper httpServicehelper =  new HttpServiceHelper();
+    httpServicehelper.registerCallBackHandler(myArtListHTTPHandler);
+    httpServicehelper.consumeRestService(ArtList.ART_URL, ArtList.TAG, this.getBaseContext());
   }
   
   /** Called when the activity is first created. */
@@ -68,12 +79,11 @@ public class ArtList extends ListActivity {
         startActivity(intent);
       }
     });
-
   }
 
   private void getConvertRequestFromDB(){
     DBServiceHelper dBServiceHelper = new DBServiceHelper();
-    dBServiceHelper.registerCallBackHandler(myArtListHandler);
+    dBServiceHelper.registerCallBackHandler(myArtListDBHandler);
     dBServiceHelper.executeOperation(ArtList.TAG, this.getBaseContext(), DBServiceHelper.GET_CONV_REQUEST_DATA);
   }
   

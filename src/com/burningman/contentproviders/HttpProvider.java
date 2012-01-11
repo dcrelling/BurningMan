@@ -14,11 +14,12 @@ import android.app.Activity;
 import android.app.Service;
 
 import com.burningman.application.ApplicationEx;
+import com.burningman.exception.HTTPException;
 
 public class HttpProvider {
 
-  public String getHttpContent(String url, Activity activity) {
-    String page = null;
+  public String getHttpContent(String url, Activity activity) throws HTTPException {
+    String httpContent = null;
     try {
       ApplicationEx app = (ApplicationEx) activity.getApplication();
       HttpClient client = app.getHttpClient();
@@ -35,34 +36,34 @@ public class HttpProvider {
           sb.append(line);
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new HTTPException(e.toString());
       } finally {
         try {
           instream.close();
         } catch (IOException e) {
-          e.printStackTrace();
+          throw new HTTPException(e.toString());
         }
       }
-      page = sb.toString();
+      httpContent = sb.toString();
 
       // page = EntityUtils.toString(response.getEntity());
       // System.out.println(page);
     } catch (IOException e) {
-      e.printStackTrace();
-    } catch (ParseException e) {
-      e.printStackTrace();
+      throw new HTTPException(e.toString());
+    }catch (ParseException e) {
+      throw new HTTPException(e.toString());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new HTTPException(e.toString());
     }
-    if (page != null) {
-      return page;
+    if (httpContent != null) {
+      return httpContent;
     } else {
-      return "";
+      return null;
     }
 
   }
   
-  public String getHttpContent(String url, Service service) {
+  public String getHttpContent(String url, Service service) throws HTTPException {
     String page = null;
     try {
       ApplicationEx app = (ApplicationEx) service.getApplication();
@@ -80,12 +81,12 @@ public class HttpProvider {
           sb.append(line);
         }
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new HTTPException(e.toString());
       } finally {
         try {
           instream.close();
         } catch (IOException e) {
-          e.printStackTrace();
+          throw new HTTPException(e.toString());
         }
       }
       page = sb.toString();
@@ -93,17 +94,18 @@ public class HttpProvider {
       // page = EntityUtils.toString(response.getEntity());
       // System.out.println(page);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new HTTPException(e.toString());
     } catch (ParseException e) {
-      e.printStackTrace();
+      throw new HTTPException(e.toString());
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new HTTPException(e.toString());
     }
     if (page != null) {
       return page;
     } else {
-      return "";
+      return null;
     }
 
   }
+  
 }

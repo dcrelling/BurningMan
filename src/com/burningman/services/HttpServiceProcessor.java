@@ -1,38 +1,51 @@
 package com.burningman.services;
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
+import android.database.SQLException;
 
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
+import com.burningman.exception.DBException;
+import com.burningman.exception.HTTPException;
 
 public class HttpServiceProcessor {
 
-	private BurningmanDBAdapter dbAdapter;
-	private Context mContext;
-	
-	public HttpServiceProcessor(Context context){
-		mContext = context;
-		dbAdapter = new BurningmanDBAdapter(mContext);
-	}
-	
-	public void doGetDBInsert(String httpResult){
-		dbAdapter.open();
-        dbAdapter.insertRestRequest("1234", "processed", "art", httpResult);
+  private Context mContext;
+  private Intent intent;
+  private Service service;
+
+  public HttpServiceProcessor(Context context, Intent intent, Service service) {
+    this.mContext = context;
+    this.intent = intent;
+    this.service = service;
+  }
+
+  public void doDBInsert(String httpResult) throws HTTPException, DBException {
+    if (httpResult != null) {
+      BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(mContext);
+      try {
+        dbAdapter.open();
+        dbAdapter.insertRestRequest("1234", "processed", intent.getStringExtra("EXPRESSION_TYPE"), httpResult);
         dbAdapter.close();
         dbAdapter = null;
-	}
-	
-	public void process(){
-		
-	}
-	
-	private void queryRestRequest(){
-		
-	}
-	
-	private void callHttpRestService(){
-		HttpProvider httpProvider = new HttpProvider();
-		//doGetDBInsert(httpProvider.getHttpContent(intent.getStringExtra("URL"), this));
-		
-	}
+      } catch (SQLException e) {
+        throw new DBException(e.toString());
+      } 
+    } else {
+      throw new HTTPException("httpResult is null");
+    }
+
+  }
+
+  public void process() throws HTTPException, DBException {
+    callHttpRestService();
+  }
+
+  private void callHttpRestService() throws HTTPException, DBException {
+    HttpProvider httpProvider = new HttpProvider();
+    doDBInsert(httpProvider.getHttpContent(intent.getStringExtra("URL"), service));
+
+  }
 }

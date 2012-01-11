@@ -5,15 +5,18 @@ import java.util.ArrayList;
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcelable;
+import android.os.RemoteException;
 
 import com.burningman.beans.Expression;
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.BurningmanDBAdapter.RestRequestMetaData;
 import com.burningman.converters.RequestConverter;
+import com.burningman.exception.DBException;
 
 public class DBLocalService extends IntentService {
   
@@ -43,8 +46,33 @@ public class DBLocalService extends IntentService {
 		Message msg = Message.obtain();
 		Bundle data = new Bundle();
 		BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(this);
-		dbAdapter.open();
-		Cursor dBCursor = getRequestData(expressionType);
+		Cursor dBCursor = null;
+		try {
+		  dbAdapter.open();
+	    dBCursor = getRequestData(expressionType);
+    } catch (SQLException e) {
+      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+      dBCursor.close();
+      dbAdapter.close();
+      dbAdapter = null;
+      msg.setData(data);
+      try {
+        messenger.send(msg);
+      } catch (RemoteException re) {
+        // TODO: handle exception
+      } 
+    }catch (DBException e){
+      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+      dBCursor.close();
+      dbAdapter.close();
+      dbAdapter = null;
+      msg.setData(data);
+      try {
+        messenger.send(msg);
+      } catch (RemoteException re) {
+        // TODO: handle exception
+      } 
+    }
 		if (dBCursor != null) {
 			if (dBCursor.getCount() > 0) {
 			  try {
@@ -52,13 +80,17 @@ public class DBLocalService extends IntentService {
 				data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_SUCESSFULL);
 				ArrayList<Parcelable> expressionList = convertRequestData(dBCursor, expressionType);
 				data.putParcelableArrayList(Expression.EXPRESSION_LIST_KEY, expressionList);
-				msg.setData(data);
-					messenger.send(msg);
 				} catch (Exception e) {
 					//add error handle
 				  dBCursor.close();
-		      dbAdapter.close();
-		      dbAdapter = null;
+		     dbAdapter.close();
+		     dbAdapter = null;
+		      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+		      try {
+		        messenger.send(msg);
+		      } catch (RemoteException re) {
+		        // TODO: handle exception
+		      } 
 				}
 			} else {
 				data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
@@ -69,6 +101,12 @@ public class DBLocalService extends IntentService {
 		  dBCursor.close();
 	    dbAdapter.close();
 	    dbAdapter = null;
+	    msg.setData(data);
+	    try {
+	      messenger.send(msg);
+      } catch (RemoteException re) {
+        // TODO: handle exception
+      } 
   }
   
   private void getFavoritesData(){
@@ -79,18 +117,18 @@ public class DBLocalService extends IntentService {
 	  
   }
   
-  private Cursor getRequestData(String expressionType){
+  private Cursor getRequestData(String expressionType) throws DBException {
     BurningmanDBAdapter dbAdapter = null;
     Cursor dBCursor = null;
     try {
       dbAdapter = new BurningmanDBAdapter(this);
       dbAdapter.open();
       dBCursor = dbAdapter.getRestRequests(expressionType);
-    } catch (Exception e) {
+    } catch (SQLException e) {
       dBCursor.close();
       dbAdapter.close();
       dbAdapter = null;
-      return null;
+      throw new DBException(e.toString());
     }
     return dBCursor;
   }

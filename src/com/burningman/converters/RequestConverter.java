@@ -9,12 +9,19 @@ import org.json.JSONObject;
 import android.os.Parcelable;
 
 import com.burningman.beans.Art;
+import com.burningman.beans.Camp;
 
 public class RequestConverter {
 
 
 	public ArrayList<Parcelable> convertRequest(String request, String expressionType){
-      return convertToArtList(request);
+	  ArrayList<Parcelable> list = new ArrayList<Parcelable>();
+	  if(expressionType.equalsIgnoreCase("art")){
+	    list =  convertToArtList(request);
+	  }else if(expressionType.equalsIgnoreCase("camp")){
+	    list =  convertToCampList(request);
+	  }
+    return list;
 	}
 
 	private ArrayList<Parcelable> convertToArtList(String request){
@@ -57,7 +64,26 @@ public class RequestConverter {
 
 	//}
 
-	//private ArrayList<Parcelable> convertToCampList(){
-
-	//}
+	private ArrayList<Parcelable> convertToCampList(String request){
+	  ArrayList<Parcelable> campList = new ArrayList<Parcelable>();
+    try {
+      // A Simple JSONArray Creation
+      JSONArray jsonCampArray = new JSONArray(request);
+      // A Simple JSONObject Parsing
+      Camp camp = null;
+      for (int i = 0; i < jsonCampArray.length(); i++) {
+        camp = new Camp();
+        JSONObject jsonCampObject = (JSONObject) jsonCampArray.get(i);
+        camp.setId(jsonCampObject.optString("id"));
+        camp.setName(jsonCampObject.optString("name"));
+        camp.setDescription(jsonCampObject.optString("description"));
+        camp.setContact_email(jsonCampObject.optString("contact_email"));
+        camp.setUrl(jsonCampObject.optString("url"));
+        campList.add(camp);
+      }
+    } catch (JSONException e) {
+      // TODO Auto-generated catch block
+    }
+    return campList;
+	}
 }
