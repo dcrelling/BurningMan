@@ -3,6 +3,7 @@ package com.burningman;
 import java.util.ArrayList;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +27,7 @@ public class ArtList extends ListActivity {
   private ExpressionListAdapter expressionListAdapter;
   private static final String ART_URL = "http://earth.burningman.com/api/0.1/2009/art/";
   private static final String TAG = "art";
+  ProgressDialog dialog = null;
   
  
     
@@ -56,6 +58,7 @@ public class ArtList extends ListActivity {
   private void displayArtList(){
     expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, artList);
     setListAdapter(expressionListAdapter);
+    dialog.dismiss();
   }
   
   private void consumeRestService(){
@@ -68,6 +71,8 @@ public class ArtList extends ListActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    dialog = ProgressDialog.show(this, "", 
+        "Loading. Please wait...", true);
     getConvertRequestFromDB();
     setContentView(R.layout.expressionlist);
     ListView artListView = getListView();

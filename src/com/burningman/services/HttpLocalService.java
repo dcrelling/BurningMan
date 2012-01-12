@@ -51,26 +51,14 @@ public class HttpLocalService extends IntentService {
      */
     try {
       httpServiceProcessor.process();
+      data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_SUCESSFULL);
     } catch (HTTPException e) {
       data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_FAILURE);
       data.putString(HttpLocalService.HTTP_SERVICE_FAILURE_MSG_KEY, HttpLocalService.HTTP_SERVICE_FAILURE_MSG);
-      msg.setData(data);
-      try {
-        messenger.send(msg);
-      } catch (RemoteException re) {
-        // TODO: handle exception
-      }
     } catch (DBException e) {
       data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_FAILURE);
       data.putString(HttpLocalService.HTTP_SERVICE_FAILURE_MSG_KEY, HttpLocalService.DB_FAILURE_MSG);
-      msg.setData(data);
-      try {
-        messenger.send(msg);
-      } catch (RemoteException re) {
-        // TODO: handle exception
-      }
     }
-    data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_SUCESSFULL);
     msg.setData(data);
     try {
       messenger.send(msg);

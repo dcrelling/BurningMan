@@ -2,13 +2,12 @@ package com.burningman;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,24 +15,69 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.burningman.adapters.ExpressionListAdapter;
-import com.burningman.beans.Event;
-import com.burningman.contentproviders.HttpProvider;
+import com.burningman.beans.Expression;
+import com.burningman.services.DBLocalService;
+import com.burningman.services.DBServiceHelper;
+import com.burningman.services.HttpLocalService;
+import com.burningman.services.HttpServiceHelper;
 
 public class EventList extends ListActivity {
 
   private ArrayList<Parcelable> eventList = null;
   private ExpressionListAdapter expressionListAdapter;
   static final String EVENT_URL = "http://earth.burningman.com/api/0.1/2009/event/";
+  private static final String TAG = "event";
+  ProgressDialog dialog = null;
+
+  private Handler myEventListDBHandler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+      super.handleMessage(msg);
+      if (msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)) {
+        eventList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
+        displayEventList();
+      } else {
+        consumeRestService();
+      }
+    }
+  };
+
+  private Handler myEventListHTTPHandler = new Handler() {
+    @Override
+    public void handleMessage(Message msg) {
+      super.handleMessage(msg);
+      if (msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY)) {
+        getConvertRequestFromDB();
+      }
+    }
+  };
+
+  private void displayEventList() {
+    expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, eventList);
+    setListAdapter(expressionListAdapter);
+    dialog.dismiss();
+  }
+
+  private void consumeRestService() {
+    HttpServiceHelper httpServicehelper = new HttpServiceHelper();
+    httpServicehelper.registerCallBackHandler(myEventListHTTPHandler);
+    httpServicehelper.consumeRestService(EventList.EVENT_URL, EventList.TAG, this.getBaseContext());
+  }
+
+  private void getConvertRequestFromDB() {
+    DBServiceHelper dBServiceHelper = new DBServiceHelper();
+    dBServiceHelper.registerCallBackHandler(myEventListDBHandler);
+    dBServiceHelper.executeOperation(EventList.TAG, this.getBaseContext(), DBServiceHelper.GET_CONV_REQUEST_DATA);
+  }
 
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    HttpProvider httpProvider = new HttpProvider();
-    //convertToEventList(httpProvider.getHttpContent(EVENT_URL, this));
+    dialog = ProgressDialog.show(this, "", 
+        "Loading. Please wait...", true);
+    getConvertRequestFromDB();
     setContentView(R.layout.expressionlist);
-    expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, eventList);
-    setListAdapter(expressionListAdapter);
     ListView eventListView = getListView();
     eventListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -45,37 +89,5 @@ public class EventList extends ListActivity {
       }
     });
 
-  }
-
-  private void convertToEventList(String page) {
-    eventList = new ArrayList<Parcelable>();
-    try {
-      // A Simple JSONArray Creation
-      JSONArray jsonEventArray = new JSONArray(page);
-      // A Simple JSONObject Parsing
-      Event event = null;
-      for (int i = 0; i < jsonEventArray.length(); i++) {
-        event = new Event();
-        JSONObject jsonEventObject = (JSONObject) jsonEventArray.get(i);
-        event.setTitle(jsonEventObject.optString("title"));
-        event.setDescription(jsonEventObject.optString("description"));
-        event.setId(jsonEventObject.optString("id"));
-        event.setUrl(jsonEventObject.optString("url"));
-
-        eventList.add(event);
-        /*
-         * JSONArray nameArray = json_art_object.names(); JSONArray valArray =json_art_object.toJSONArray(nameArray);
-         * for(int j=0; j<valArray.length(); j++) {
-         * Log.i("Praeda","<jsonname"+j+">\n"+nameArray.getString(j)+"\n</jsonname"+j+">\n"
-         * +"<jsonvalue"+j+">\n"+valArray.getString(j)+"\n</jsonvalue"+j+">"); }
-         */
-      }
-      // A Simple JSONObject Value Pushing
-      // json.put("sample key", "sample value");
-      // Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
-    } catch (JSONException e) {
-      // TODO Auto-generated catch block
-
-    }
   }
 }
