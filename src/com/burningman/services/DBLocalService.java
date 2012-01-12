@@ -21,9 +21,10 @@ import com.burningman.exception.DBException;
 public class DBLocalService extends IntentService {
 
   private Messenger messenger;
-  public static final String QUERY_RESULT_KEY = "Success";
-  public static final boolean QUERY_SUCESSFULL = true;
-  public static final boolean QUERY_FAILURE = false;
+  public static final String QUERY_RESULTS_FOUND = "QUERY_RESULTS_FOUND";
+  public static final String QUERY_RESULTS_NOT_FOUND = "QUERY_RESULTS_NOT_FOUND";
+  public static final String QUERY_ERROR_ENCOUNTERED = "QUERY_ERROR_ENCOUNTERED";
+  public static final String QUERY_ERROR_NOT_ENCOUNTERED = "QUERY_ERROR_NOT_ENCOUNTERED";
   private BurningmanDBAdapter dbAdapter = null;
   private Cursor dBCursor = null;
   /**
@@ -51,27 +52,33 @@ public class DBLocalService extends IntentService {
     try {
       dBCursor = getRequestData(expressionType);
     } catch (SQLException e) {
-      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
     } catch (DBException e) {
-      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
     }
 
     if (dBCursor != null) {
       if (dBCursor.getCount() > 0) {
         try {
           dBCursor.moveToFirst();
-          data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_SUCESSFULL);
+          data.putBoolean(DBLocalService.QUERY_RESULTS_FOUND, true);
+          data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
           ArrayList<Parcelable> expressionList = convertRequestData(dBCursor, expressionType);
           data.putParcelableArrayList(Expression.EXPRESSION_LIST_KEY, expressionList);
         } catch (Exception e) {
           // add error handle
-          data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+          data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+          data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
         }
       } else {
-        data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+        data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
       }
     } else {
-      data.putBoolean(DBLocalService.QUERY_RESULT_KEY, DBLocalService.QUERY_FAILURE);
+      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
     }
 
     if (dBCursor != null) {

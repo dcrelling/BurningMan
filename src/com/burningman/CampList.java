@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.os.Message;
 import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -29,28 +31,42 @@ public class CampList extends ListActivity {
   private static final String TAG = "camp";
   ProgressDialog dialog = null;
 
-  private Handler myCampListDBHandler = new Handler() {
+  private  Handler myCampListDBHandler = new Handler(){
     @Override
     public void handleMessage(Message msg) {
-      super.handleMessage(msg);
-      if (msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)) {
+      super.handleMessage(msg);  
+      if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED))) ){
         campList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
         displayCampList();
-      } else {
+      }else if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED))) ){
         consumeRestService();
+      }else if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED))) ){
+        dialog.dismiss();
+        Context context = getApplicationContext();
+        CharSequence text = "Database Error: Data could not be retrieved";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
       }
     }
-  };
+};       
 
-  private Handler myCampListHTTPHandler = new Handler() {
-    @Override
-    public void handleMessage(Message msg) {
-      super.handleMessage(msg);
-      if (msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY)) {
-        getConvertRequestFromDB();
+private  Handler myCampListHTTPHandler = new Handler(){
+  @Override
+  public void handleMessage(Message msg) {
+      super.handleMessage(msg);  
+      if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_SUCESSFULL)){
+          getConvertRequestFromDB();
+      }else if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_FAILURE)){
+        dialog.dismiss();
+        Context context = getApplicationContext();
+        CharSequence text = "HTTP Error: Data could not be retrieved from service";
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
       }
-    }
-  };
+  }
+};       
 
   private void displayCampList() {
     expressionListAdapter = new ExpressionListAdapter(this, R.layout.listrow, campList);

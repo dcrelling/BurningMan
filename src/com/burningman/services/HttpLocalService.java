@@ -14,12 +14,9 @@ public class HttpLocalService extends IntentService {
 
   // Intent intent;
   private Messenger messenger;
-  public static final String HTTP_SERVICE_RESULT_KEY = "Success";
-  public static final boolean HTTP_SERVICE_SUCESSFULL = true;
-  public static final boolean HTTP_SERVICE_FAILURE = false;
-  public static final String HTTP_SERVICE_FAILURE_MSG_KEY = "HTTP_SERVICE_FAILURE_MSG_KEY";
-  public static final String HTTP_SERVICE_FAILURE_MSG = "A HTTP Exception Occured. Failed To Retrive Content.";
-  public static final String DB_FAILURE_MSG = "A Database Exception Occured. Failed To Insert Content.";
+  public static final String HTTP_SERVICE_SUCESSFULL = "HTTP_SERVICE_SUCESSFULL";
+  public static final String HTTP_SERVICE_FAILURE = "HTTP_SERVICE_FAILURE";
+
 
   /**
    * A constructor is required, and must call the super IntentService(String) constructor with a name for the worker
@@ -51,13 +48,11 @@ public class HttpLocalService extends IntentService {
      */
     try {
       httpServiceProcessor.process();
-      data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_SUCESSFULL);
+      data.putBoolean(HttpLocalService.HTTP_SERVICE_SUCESSFULL, true);
     } catch (HTTPException e) {
-      data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_FAILURE);
-      data.putString(HttpLocalService.HTTP_SERVICE_FAILURE_MSG_KEY, HttpLocalService.HTTP_SERVICE_FAILURE_MSG);
+      data.putBoolean(HttpLocalService.HTTP_SERVICE_FAILURE, true);
     } catch (DBException e) {
-      data.putBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY, HttpLocalService.HTTP_SERVICE_FAILURE);
-      data.putString(HttpLocalService.HTTP_SERVICE_FAILURE_MSG_KEY, HttpLocalService.DB_FAILURE_MSG);
+      data.putBoolean(HttpLocalService.HTTP_SERVICE_FAILURE, true);
     }
     msg.setData(data);
     try {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.burningman.adapters.ExpressionListAdapter;
 import com.burningman.beans.Expression;
@@ -35,12 +37,19 @@ public class ArtList extends ListActivity {
       @Override
       public void handleMessage(Message msg) {
         super.handleMessage(msg);  
-        if(msg.getData().getBoolean(DBLocalService.QUERY_RESULT_KEY)){
+        if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED))) ){
           artList = msg.getData().getParcelableArrayList(Expression.EXPRESSION_LIST_KEY);
           displayArtList();
-        }else{
+        }else if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED))) ){
           consumeRestService();
-        } 
+        }else if( ((msg.getData().getBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND)) && (msg.getData().getBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED))) ){
+          dialog.dismiss();
+          Context context = getApplicationContext();
+          CharSequence text = "Database Error: Data could not be retrieved from database";
+          int duration = Toast.LENGTH_SHORT;
+          Toast toast = Toast.makeText(context, text, duration);
+          toast.show();
+        }
       }
   };       
   
@@ -48,10 +57,17 @@ public class ArtList extends ListActivity {
     @Override
     public void handleMessage(Message msg) {
         super.handleMessage(msg);  
-        if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_RESULT_KEY)){
+        if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_SUCESSFULL)){
             getConvertRequestFromDB();
-          }
-        }  
+        }else if(msg.getData().getBoolean(HttpLocalService.HTTP_SERVICE_FAILURE)){
+          dialog.dismiss();
+          Context context = getApplicationContext();
+          CharSequence text = "HTTP Error: Data could not be retrieved from service";
+          int duration = Toast.LENGTH_SHORT;
+          Toast toast = Toast.makeText(context, text, duration);
+          toast.show();
+        }
+    }
   };       
     
     
