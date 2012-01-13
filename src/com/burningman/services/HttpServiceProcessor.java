@@ -27,7 +27,7 @@ public class HttpServiceProcessor {
       BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(mContext);
       try {
         dbAdapter.open();
-        dbAdapter.insertRestRequest("1234", "processed", intent.getStringExtra("EXPRESSION_TYPE"), httpResult);
+        dbAdapter.insertRestRequest("processed", intent.getStringExtra("EXPRESSION_TYPE"), httpResult);
         dbAdapter.close();
         dbAdapter = null;
       } catch (SQLException e) {
