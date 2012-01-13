@@ -64,7 +64,7 @@ public class HttpProvider {
   }
   
   public String getHttpContent(String url, Service service) throws HTTPException {
-    String page = null;
+    String httpContent = null;
     try {
       ApplicationEx app = (ApplicationEx) service.getApplication();
       HttpClient client = app.getHttpClient();
@@ -89,7 +89,7 @@ public class HttpProvider {
           throw new HTTPException(e.toString());
         }
       }
-      page = sb.toString();
+      httpContent = sb.toString();
 
       // page = EntityUtils.toString(response.getEntity());
       // System.out.println(page);
@@ -100,8 +100,8 @@ public class HttpProvider {
     } catch (Exception e) {
       throw new HTTPException(e.toString());
     }
-    if (page != null) {
-      return page;
+    if (httpContent != null) {
+      return httpContent;
     } else {
       return null;
     }
