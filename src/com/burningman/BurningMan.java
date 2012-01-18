@@ -17,6 +17,8 @@ public class BurningMan extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.start_screen);
 
+    
+    /*
     // --- Camp Button view---
     ImageButton launchButton = (ImageButton) findViewById(R.id.LaunchButton01);
     launchButton.setOnClickListener(new View.OnClickListener() {
@@ -24,9 +26,9 @@ public class BurningMan extends Activity {
         Intent intent = new Intent("com.burningman.Home");
         startActivity(intent);
       }
-    });
+    }); */
 
-  }
+  } 
   
 
   @Override
@@ -82,7 +84,8 @@ public class BurningMan extends Activity {
   }
 
   protected void displayMap() {
-
+    Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+    startActivity(intent);
   }
 
 }

@@ -12,6 +12,9 @@ public class Art extends Expression implements Parcelable {
   private String location_point;
   private String location_poly;
   private String location_string;
+  private String Latitude;
+  private String Longitude;
+  
 
   public static final Parcelable.Creator<Art> CREATOR = new Parcelable.Creator<Art>() {
     public Art createFromParcel(Parcel in) {
@@ -37,6 +40,8 @@ public class Art extends Expression implements Parcelable {
     setCircular_street(in.readString());
     setSlug(in.readString());
     setUrl(in.readString());
+    setLatitude(in.readString());
+    setLongitude(in.readString());
   }
 
   public String getCircular_street() {
@@ -75,6 +80,22 @@ public class Art extends Expression implements Parcelable {
   public void setLocation_string(String location_string) {
     this.location_string = location_string;
   }
+  
+  public String getLatitude() {
+    return Latitude;
+  }
+
+  public void setLatitude(String latitude) {
+    Latitude = latitude;
+  }
+
+  public String getLongitude() {
+    return Longitude;
+  }
+
+  public void setLongitude(String longitude) {
+    Longitude = longitude;
+  }
 
   @Override
   public int describeContents() {
@@ -92,7 +113,10 @@ public class Art extends Expression implements Parcelable {
     dest.writeString(getCircular_street());
     dest.writeString(getSlug());
     dest.writeString(getUrl());
+    dest.writeString(getLatitude());
+    dest.writeString(getLongitude());
 
   }
+
 
 }

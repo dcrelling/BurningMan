@@ -26,9 +26,8 @@ public class HttpProvider {
       HttpGet request = new HttpGet();
       request.setURI(new URI(url));
       HttpResponse response = client.execute(request);
-
       InputStreamReader instream = new InputStreamReader(response.getEntity().getContent());
-      BufferedReader reader = new BufferedReader(instream);
+      BufferedReader reader = new BufferedReader(instream, 1024);
       StringBuffer sb = new StringBuffer();
       String line = "";
       try {
@@ -74,7 +73,7 @@ public class HttpProvider {
 
       InputStreamReader instream = new InputStreamReader(response.getEntity().getContent());
       BufferedReader reader = new BufferedReader(instream);
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       String line = "";
       try {
         while ((line = reader.readLine()) != null) {

@@ -1,83 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.burningman"
-      android:versionCode="1"
-      android:versionName="1.0">
-      
-      
-	<application android:icon="@drawable/icon" android:label="@string/app_name"
-		android:name="com.burningman.application.ApplicationEx"
-		android:debuggable="true">
-		
-		<activity android:name=".BurningMan"
-                  android:label="@string/app_name">
-            <intent-filter>
+    package="com.burningman"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <application
+        android:debuggable="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:name="com.burningman.application.ApplicationEx" >
+        <activity
+            android:label="@string/app_name"
+            android:name=".BurningMan" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        
-		<activity android:name="Home">
-			<intent-filter>
-				<action android:name="com.burningman.Home"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
+        <activity android:name="Home" >
+            <intent-filter >
+                <action android:name="com.burningman.Home" >
+                </action>
 
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="ArtList" >
+            <intent-filter >
+                <action android:name="com.burningman.ArtList" >
+                </action>
 
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="EventList" >
+            <intent-filter >
+                <action android:name="com.burningman.EventList" >
+                </action>
 
-		<activity android:name="ArtList">
-			<intent-filter>
-				<action android:name="com.burningman.ArtList"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="EventList">
-			<intent-filter>
-				<action android:name="com.burningman.EventList"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="CampList">
-			<intent-filter>
-				<action android:name="com.burningman.CampList"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="ArtDetail">
-			<intent-filter>
-				<action android:name="com.burningman.ArtDetail"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="CampDetail">
-			<intent-filter>
-				<action android:name="com.burningman.CampDetail"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="EventDetail">
-			<intent-filter>
-				<action android:name="com.burningman.EventDetail"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="FavoritesList">
-			<intent-filter>
-				<action android:name="com.burningman.FavoritesList"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<activity android:name="FavoritesDetail">
-			<intent-filter>
-				<action android:name="com.burningman.FavoritesDetail"></action>
-				<category android:name="android.intent.category.DEFAULT"></category>
-			</intent-filter>
-		</activity>
-		<service android:name="com.burningman.services.HttpLocalService"></service>
-		<service android:name="com.burningman.services.DBLocalService"></service>
-	</application>
-	<uses-sdk android:minSdkVersion="5"/>
-	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-</manifest> 
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="CampList" >
+            <intent-filter >
+                <action android:name="com.burningman.CampList" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="ArtDetail" >
+            <intent-filter >
+                <action android:name="com.burningman.ArtDetail" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="CampDetail" >
+            <intent-filter >
+                <action android:name="com.burningman.CampDetail" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="EventDetail" >
+            <intent-filter >
+                <action android:name="com.burningman.EventDetail" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="FavoritesList" >
+            <intent-filter >
+                <action android:name="com.burningman.FavoritesList" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="FavoritesDetail" >
+            <intent-filter >
+                <action android:name="com.burningman.FavoritesDetail" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="OpenStreetMapActivity" >
+            <intent-filter >
+                <action android:name="com.burningman.OpenStreetMapActivity" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+
+        <service android:name="com.burningman.services.HttpLocalService" >
+        </service>
+        <service android:name="com.burningman.services.DBLocalService" >
+        </service>
+    </application>
+
+    <uses-sdk android:minSdkVersion="5" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+</manifest>

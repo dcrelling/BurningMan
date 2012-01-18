@@ -1,6 +1,7 @@
 package com.burningman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.view.View;
@@ -28,9 +29,9 @@ public class ArtDetail extends Activity {
     ExpressionDetailAdapter eda = new ExpressionDetailAdapter(this, artItem);
     setContentView(eda.mapToDetailView());
 
-    // --- Event Button view---
-    Button eventButton = (Button) findViewById(R.id.ButtonFavorite);
-    eventButton.setOnClickListener(new View.OnClickListener() {
+    // --- Favorite Button view---
+    Button addFavoriteButton = (Button) findViewById(R.id.ButtonFavorite);
+    addFavoriteButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(v.getContext());
         try {
@@ -59,5 +60,17 @@ public class ArtDetail extends Activity {
         }
       }
     });
+    
+    //-- Map It Button View --
+    Button mapItButton = (Button) findViewById(R.id.ButtonMap);
+    mapItButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+        intent.putExtra("latitude", artItem.getLatitude());
+        intent.putExtra("longitude", artItem.getLongitude());
+        startActivity(intent);
+      }
+    });
+    
   }
 }

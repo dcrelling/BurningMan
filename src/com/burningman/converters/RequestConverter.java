@@ -33,6 +33,7 @@ public class RequestConverter {
       JSONArray jsonArtArray = new JSONArray(request);
       // A Simple JSONObject Parsing
       Art art = null;
+      JSONObject locationPointObject = null;
       for (int i = 0; i < jsonArtArray.length(); i++) {
         art = new Art();
         JSONObject jsonArtObject = (JSONObject) jsonArtArray.get(i);
@@ -44,18 +45,19 @@ public class RequestConverter {
         art.setName(jsonArtObject.optString("name"));
         art.setSlug(jsonArtObject.optString("slug"));
         art.setUrl(jsonArtObject.optString("url"));
-        artList.add(art);
-
-        /*
-         * JSONArray nameArray = json_art_object.names(); JSONArray valArray =json_art_object.toJSONArray(nameArray);
-         * for(int j=0; j<valArray.length(); j++) {
-         * Log.i("Praeda","<jsonname"+j+">\n"+nameArray.getString(j)+"\n</jsonname"+j+">\n"
-         * +"<jsonvalue"+j+">\n"+valArray.getString(j)+"\n</jsonvalue"+j+">"); }
-         */
+        String locationPoint = jsonArtObject.optString("location_point");
+        if(!(locationPoint.equalsIgnoreCase("") || locationPoint.equalsIgnoreCase("null"))){
+          locationPointObject = new JSONObject(locationPoint);
+          if(locationPointObject != null){
+            JSONArray coordinatesArray = locationPointObject.optJSONArray("coordinates");
+            if(coordinatesArray != null){
+              art.setLongitude(coordinatesArray.getString(0));
+              art.setLatitude(coordinatesArray.getString(1));
+            }
+          }
+        }
+          artList.add(art);    
       }
-      // A Simple JSONObject Value Pushing
-      // json.put("sample key", "sample value");
-      // Log.i("Praeda","<jsonobject>\n"+json.toString()+"\n</jsonobject>");
     } catch (JSONException e) {
       // TODO Auto-generated catch block
     }
