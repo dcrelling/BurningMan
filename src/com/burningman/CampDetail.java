@@ -1,6 +1,7 @@
 package com.burningman;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +25,8 @@ public class CampDetail extends Activity {
     setContentView(eda.mapToDetailView());
 
     // --- Event Button view---
-    Button eventButton = (Button) findViewById(R.id.ButtonFavorite);
-    eventButton.setOnClickListener(new View.OnClickListener() {
+    Button addFavoriteButton = (Button) findViewById(R.id.ButtonFavorite);
+    addFavoriteButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         BurningmanDBAdapter dbAdapter = new BurningmanDBAdapter(v.getContext());
         dbAdapter.open();
@@ -40,6 +41,17 @@ public class CampDetail extends Activity {
         }
         dbAdapter.close();
         dbAdapter = null;
+      }
+    });
+    
+    //-- Map It Button View --
+    Button mapItButton = (Button) findViewById(R.id.ButtonMap);
+    mapItButton.setOnClickListener(new View.OnClickListener() {
+      public void onClick(View v) {
+        Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+        intent.putExtra("latitude", campItem.getLatitude());
+        intent.putExtra("longitude", campItem.getLongitude());
+        startActivity(intent);
       }
     });
 

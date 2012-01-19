@@ -29,6 +29,8 @@ public class Event extends Expression implements Parcelable {
     setContact_email(in.readString());
     setTitle(in.readString());
     setUrl(in.readString());
+    setLatitude(in.readString());
+    setLongitude(in.readString());
   }
 
   public String getTitle() {
@@ -54,6 +56,8 @@ public class Event extends Expression implements Parcelable {
     dest.writeString(getContact_email());
     dest.writeString(getTitle());
     dest.writeString(getUrl());
+    dest.writeString(getLatitude());
+    dest.writeString(getLongitude());
 
   }
 

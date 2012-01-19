@@ -69,6 +69,7 @@ public class RequestConverter {
       JSONArray jsonCampArray = new JSONArray(request);
       // A Simple JSONObject Parsing
       Camp camp = null;
+      JSONObject locationPointObject = null;
       for (int i = 0; i < jsonCampArray.length(); i++) {
         camp = new Camp();
         JSONObject jsonCampObject = (JSONObject) jsonCampArray.get(i);
@@ -77,6 +78,17 @@ public class RequestConverter {
         camp.setDescription(jsonCampObject.optString("description"));
         camp.setContact_email(jsonCampObject.optString("contact_email"));
         camp.setUrl(jsonCampObject.optString("url"));
+        String locationPoint = jsonCampObject.optString("location_point");
+        if (!(locationPoint.equalsIgnoreCase("") || locationPoint.equalsIgnoreCase("null"))) {
+          locationPointObject = new JSONObject(locationPoint);
+          if (locationPointObject != null) {
+            JSONArray coordinatesArray = locationPointObject.optJSONArray("coordinates");
+            if (coordinatesArray != null) {
+              camp.setLongitude(coordinatesArray.getString(0));
+              camp.setLatitude(coordinatesArray.getString(1));
+            }
+          }
+        }
         campList.add(camp);
       }
     } catch (JSONException e) {
@@ -92,6 +104,7 @@ public class RequestConverter {
       JSONArray jsonEventArray = new JSONArray(request);
       // A Simple JSONObject Parsing
       Event event = null;
+      JSONObject locationPointObject = null;
       for (int i = 0; i < jsonEventArray.length(); i++) {
         event = new Event();
         JSONObject jsonEventObject = (JSONObject) jsonEventArray.get(i);
@@ -99,6 +112,17 @@ public class RequestConverter {
         event.setDescription(jsonEventObject.optString("description"));
         event.setId(jsonEventObject.optString("id"));
         event.setUrl(jsonEventObject.optString("url"));
+        String locationPoint = jsonEventObject.optString("location_point");
+        if (!(locationPoint.equalsIgnoreCase("") || locationPoint.equalsIgnoreCase("null"))) {
+          locationPointObject = new JSONObject(locationPoint);
+          if (locationPointObject != null) {
+            JSONArray coordinatesArray = locationPointObject.optJSONArray("coordinates");
+            if (coordinatesArray != null) {
+              event.setLongitude(coordinatesArray.getString(0));
+              event.setLatitude(coordinatesArray.getString(1));
+            }
+          }
+        }
         eventList.add(event);
       }
     } catch (JSONException e) {

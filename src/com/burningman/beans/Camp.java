@@ -16,6 +16,8 @@ public class Camp extends Expression implements Parcelable {
     setDescription(in.readString());
     setContact_email(in.readString());
     setUrl(in.readString());
+    setLatitude(in.readString());
+    setLongitude(in.readString());
   }
 
   public static final Parcelable.Creator<Camp> CREATOR = new Parcelable.Creator<Camp>() {
@@ -42,6 +44,8 @@ public class Camp extends Expression implements Parcelable {
     dest.writeString(getDescription());
     dest.writeString(getContact_email());
     dest.writeString(getUrl());
+    dest.writeString(getLatitude());
+    dest.writeString(getLongitude());
   }
 
 }
