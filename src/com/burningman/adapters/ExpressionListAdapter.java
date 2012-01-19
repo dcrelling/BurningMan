@@ -68,12 +68,35 @@ public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
       }
     } else if (items.get(position) instanceof Event) {
       Event event = (Event) items.get(position);
-      if (event != null) {
+        if (event != null) {
+          ImageView eventImage = (ImageView) v.findViewById(R.id.ImageView01);
+          TextView eventNameLbl = (TextView) v.findViewById(R.id.TVExpLstLbl1);
+          TextView eventDescLbl = (TextView) v.findViewById(R.id.TVExpLstLbl2);
+          TextView eventName = (TextView) v.findViewById(R.id.TVExpLstDta1);
+          TextView eventDescription = (TextView) v.findViewById(R.id.TVExpLstDta2);
+          if (eventNameLbl != null) {
+            eventNameLbl.setText("Event Name: ");
+          }
 
-        /*
-         * TextView tt = (TextView) v.findViewById(R.id.TextView01); if (tt != null) { tt.setText(event.getTitle()); }
-         */
-      }
+          if (eventDescLbl != null) {
+            eventDescLbl.setText("Event Description: ");
+
+          }
+
+          if (eventImage != null) {
+            eventImage.setImageResource(R.drawable.event_lst_row);
+          }
+          if (eventName != null) {
+            eventName.setText(event.getName());
+          }
+          if (eventDescription != null) {
+            if (event.getDescription().length() > 100) {
+              eventDescription.setText(event.getDescription().substring(0, 101) + "...");
+            } else {
+              eventDescription.setText(event.getDescription());
+            }
+          }
+        }
     } else if (items.get(position) instanceof Camp) {
       Camp camp = (Camp) items.get(position);
       if (camp != null) {

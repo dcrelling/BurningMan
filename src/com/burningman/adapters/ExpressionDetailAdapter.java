@@ -82,8 +82,33 @@ public class ExpressionDetailAdapter {
 
       v.findViewById(R.id.EDTextViewLbl5).setVisibility(View.INVISIBLE);
       v.findViewById(R.id.EDTextViewDta5).setVisibility(View.INVISIBLE);
+      
     } else if (expression instanceof Event) {
+      Event eventItem = (Event) expression;
+      TextView nameLbl = (TextView) v.findViewById(R.id.EDTextViewLbl1);
+      nameLbl.setText("Event Name: ");
+      TextView name = (TextView) v.findViewById(R.id.EDTextViewDta1);
+      name.setText(eventItem.getName());
 
+      TextView descriptionLbl = (TextView) v.findViewById(R.id.EDTextViewLbl2);
+      descriptionLbl.setText("Event Description: ");
+      TextView description = (TextView) v.findViewById(R.id.EDTextViewDta2);
+      description.setText(eventItem.getDescription());
+
+      TextView contactEmailLbl = (TextView) v.findViewById(R.id.EDTextViewLbl3);
+      contactEmailLbl.setText("Contact Email: ");
+      TextView contactEmail = (TextView) v.findViewById(R.id.EDTextViewDta3);
+      contactEmail.setText(eventItem.getContact_email());
+      Linkify.addLinks(contactEmail, Linkify.ALL);
+
+      TextView URLLbl = (TextView) v.findViewById(R.id.EDTextViewLbl4);
+      URLLbl.setText("Event URL: ");
+      TextView URL = (TextView) v.findViewById(R.id.EDTextViewDta4);
+      URL.setText(eventItem.getUrl());
+      Linkify.addLinks(URL, Linkify.ALL);
+
+      v.findViewById(R.id.EDTextViewLbl5).setVisibility(View.INVISIBLE);
+      v.findViewById(R.id.EDTextViewDta5).setVisibility(View.INVISIBLE);
     }
     return v;
 
