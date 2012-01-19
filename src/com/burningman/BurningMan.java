@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 
 public class BurningMan extends Activity {
 
@@ -17,19 +15,7 @@ public class BurningMan extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.start_screen);
 
-    
-    /*
-    // --- Camp Button view---
-    ImageButton launchButton = (ImageButton) findViewById(R.id.LaunchButton01);
-    launchButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        Intent intent = new Intent("com.burningman.Home");
-        startActivity(intent);
-      }
-    }); */
-
-  } 
-  
+  }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,32 +23,32 @@ public class BurningMan extends Activity {
     inflater.inflate(R.layout.main_menu, menu);
     return true;
   }
-  
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
     switch (item.getItemId()) {
-    case R.id.art_menu:
+      case R.id.art_menu :
         displayArtList();
         return true;
-    case R.id.events_menu:
+      case R.id.events_menu :
         displayEventList();
         return true;
-    case R.id.camps_menu:
-      displayCampList();
-      return true;
-    case R.id.favorites_menu:
-      displayFavortiesList();
-      return true;
-    case R.id.map_menu:
-      displayMap();
-      return true;
-    default:
+      case R.id.camps_menu :
+        displayCampList();
+        return true;
+      case R.id.favorites_menu :
+        displayFavortiesList();
+        return true;
+      case R.id.map_menu :
+        displayMap();
+        return true;
+      default :
         return super.onOptionsItemSelected(item);
     }
 
   }
-  
+
   protected void displayArtList() {
     Intent intent = new Intent("com.burningman.ArtList");
     startActivity(intent);
@@ -83,12 +69,11 @@ public class BurningMan extends Activity {
     startActivity(intent);
   }
 
-  
   protected void displayMap() {
     Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
     intent.putExtra("latitude", "40.78231");
     intent.putExtra("longitude", "-119.21282");
     startActivity(intent);
-  } 
+  }
 
 }

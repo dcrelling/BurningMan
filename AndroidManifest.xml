@@ -18,15 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="Home" >
-            <intent-filter >
-                <action android:name="com.burningman.Home" >
-                </action>
-
-                <category android:name="android.intent.category.DEFAULT" >
-                </category>
-            </intent-filter>
-        </activity>
         <activity android:name="ArtList" >
             <intent-filter >
                 <action android:name="com.burningman.ArtList" >
