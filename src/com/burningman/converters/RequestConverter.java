@@ -38,25 +38,23 @@ public class RequestConverter {
         art = new Art();
         JSONObject jsonArtObject = (JSONObject) jsonArtArray.get(i);
         art.setArtist(jsonArtObject.optString("artist"));
-        art.setCircular_street(jsonArtObject.optString("circular_street"));
         art.setContact_email(jsonArtObject.optString("contact_email"));
         art.setDescription(jsonArtObject.optString("description"));
         art.setId(jsonArtObject.optString("id"));
         art.setName(jsonArtObject.optString("name"));
-        art.setSlug(jsonArtObject.optString("slug"));
         art.setUrl(jsonArtObject.optString("url"));
         String locationPoint = jsonArtObject.optString("location_point");
-        if(!(locationPoint.equalsIgnoreCase("") || locationPoint.equalsIgnoreCase("null"))){
+        if (!(locationPoint.equalsIgnoreCase("") || locationPoint.equalsIgnoreCase("null"))) {
           locationPointObject = new JSONObject(locationPoint);
-          if(locationPointObject != null){
+          if (locationPointObject != null) {
             JSONArray coordinatesArray = locationPointObject.optJSONArray("coordinates");
-            if(coordinatesArray != null){
+            if (coordinatesArray != null) {
               art.setLongitude(coordinatesArray.getString(0));
               art.setLatitude(coordinatesArray.getString(1));
             }
           }
         }
-          artList.add(art);    
+        artList.add(art);
       }
     } catch (JSONException e) {
       // TODO Auto-generated catch block

@@ -3,7 +3,6 @@ package com.burningman.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Event extends Expression implements Parcelable {
 
   private String title;
@@ -29,7 +28,6 @@ public class Event extends Expression implements Parcelable {
     setDescription(in.readString());
     setContact_email(in.readString());
     setTitle(in.readString());
-    setSlug(in.readString());
     setUrl(in.readString());
   }
 
@@ -55,7 +53,6 @@ public class Event extends Expression implements Parcelable {
     dest.writeString(getDescription());
     dest.writeString(getContact_email());
     dest.writeString(getTitle());
-    dest.writeString(getSlug());
     dest.writeString(getUrl());
 
   }

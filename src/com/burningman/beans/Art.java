@@ -3,18 +3,9 @@ package com.burningman.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Art extends Expression implements Parcelable {
 
-  private String circular_street;
   private String artist;
-  private String time_address;
-  private String location_point;
-  private String location_poly;
-  private String location_string;
-  private String Latitude;
-  private String Longitude;
-  
 
   public static final Parcelable.Creator<Art> CREATOR = new Parcelable.Creator<Art>() {
     public Art createFromParcel(Parcel in) {
@@ -37,64 +28,16 @@ public class Art extends Expression implements Parcelable {
     setDescription(in.readString());
     setContact_email(in.readString());
     setArtist(in.readString());
-    setCircular_street(in.readString());
-    setSlug(in.readString());
     setUrl(in.readString());
     setLatitude(in.readString());
     setLongitude(in.readString());
   }
 
-  public String getCircular_street() {
-    return circular_street;
-  }
-  public void setCircular_street(String circular_street) {
-    this.circular_street = circular_street;
-  }
   public String getArtist() {
     return artist;
   }
   public void setArtist(String artist) {
     this.artist = artist;
-  }
-  public String getTime_address() {
-    return time_address;
-  }
-  public void setTime_address(String time_address) {
-    this.time_address = time_address;
-  }
-  public String getLocation_point() {
-    return location_point;
-  }
-  public void setLocation_point(String location_point) {
-    this.location_point = location_point;
-  }
-  public String getLocation_poly() {
-    return location_poly;
-  }
-  public void setLocation_poly(String location_poly) {
-    this.location_poly = location_poly;
-  }
-  public String getLocation_string() {
-    return location_string;
-  }
-  public void setLocation_string(String location_string) {
-    this.location_string = location_string;
-  }
-  
-  public String getLatitude() {
-    return Latitude;
-  }
-
-  public void setLatitude(String latitude) {
-    Latitude = latitude;
-  }
-
-  public String getLongitude() {
-    return Longitude;
-  }
-
-  public void setLongitude(String longitude) {
-    Longitude = longitude;
   }
 
   @Override
@@ -110,13 +53,10 @@ public class Art extends Expression implements Parcelable {
     dest.writeString(getDescription());
     dest.writeString(getContact_email());
     dest.writeString(getArtist());
-    dest.writeString(getCircular_street());
-    dest.writeString(getSlug());
     dest.writeString(getUrl());
     dest.writeString(getLatitude());
     dest.writeString(getLongitude());
 
   }
-
 
 }

@@ -3,7 +3,6 @@ package com.burningman.beans;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Camp extends Expression implements Parcelable {
 
   public Camp() {
@@ -16,7 +15,6 @@ public class Camp extends Expression implements Parcelable {
     setName(in.readString());
     setDescription(in.readString());
     setContact_email(in.readString());
-    setSlug(in.readString());
     setUrl(in.readString());
   }
 
@@ -43,7 +41,6 @@ public class Camp extends Expression implements Parcelable {
     dest.writeString(getName());
     dest.writeString(getDescription());
     dest.writeString(getContact_email());
-    dest.writeString(getSlug());
     dest.writeString(getUrl());
   }
 

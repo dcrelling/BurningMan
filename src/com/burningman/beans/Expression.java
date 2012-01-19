@@ -1,18 +1,18 @@
 package com.burningman.beans;
 
-
 public class Expression {
 
   public static final String EXPRESSION_TYPE_KEY = "EXPRESSION_TYPE";
   public static final String EXPRESSION_LIST_KEY = "EXPRESSION_LIST";
-  
-private String id;
+
+  private String id;
   private String contact_email;
   private String description;
   private String name;
-  private String slug;
   private String year;
   private String url;
+  private String Latitude;
+  private String Longitude;
 
   public Expression() {
 
@@ -50,14 +50,6 @@ private String id;
     this.name = name;
   }
 
-  public String getSlug() {
-    return slug;
-  }
-
-  public void setSlug(String slug) {
-    this.slug = slug;
-  }
-
   public String getYear() {
     return year;
   }
@@ -73,7 +65,21 @@ private String id;
   public void setUrl(String url) {
     this.url = url;
   }
-  
-  
+
+  public String getLatitude() {
+    return Latitude;
+  }
+
+  public void setLatitude(String latitude) {
+    Latitude = latitude;
+  }
+
+  public String getLongitude() {
+    return Longitude;
+  }
+
+  public void setLongitude(String longitude) {
+    Longitude = longitude;
+  }
 
 }
