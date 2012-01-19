@@ -37,11 +37,11 @@ public class EventDetail extends Activity {
         try {
           dbAdapter.open();
           if (dbAdapter.getFavorite(eventItem.getId()).getCount() <= 0) {
-            dbAdapter.insertFavorite(eventItem.getId(), eventItem.getName(), "event", eventItem.getContact_email(),
+            dbAdapter.insertFavorite(eventItem.getId(), eventItem.getTitle(), "event", eventItem.getContact_email(),
                 eventItem.getUrl(), eventItem.getDescription(), eventItem.getLatitude(), eventItem.getLongitude());
-            Toast.makeText(getApplicationContext(), eventItem.getName() + " " + ITEM_ADDED, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), eventItem.getTitle() + " " + ITEM_ADDED, Toast.LENGTH_SHORT).show();
           } else {
-            Toast.makeText(getApplicationContext(), eventItem.getName() + " " + ITEM_ALREDY_ADDED, Toast.LENGTH_SHORT)
+            Toast.makeText(getApplicationContext(), eventItem.getTitle() + " " + ITEM_ALREDY_ADDED, Toast.LENGTH_SHORT)
                 .show();
           }
         } catch (SQLException e) {

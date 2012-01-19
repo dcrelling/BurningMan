@@ -87,7 +87,7 @@ public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
             eventImage.setImageResource(R.drawable.event_lst_row);
           }
           if (eventName != null) {
-            eventName.setText(event.getName());
+            eventName.setText(event.getTitle());
           }
           if (eventDescription != null) {
             if (event.getDescription().length() > 100) {

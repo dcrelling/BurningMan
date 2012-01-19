@@ -16,6 +16,7 @@ import android.util.Log;
 import com.burningman.AppStatus;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
+import com.burningman.beans.Event;
 import com.burningman.beans.Expression;
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.BurningmanDBAdapter.FavoritesMetaData;
@@ -133,6 +134,7 @@ public class DBLocalService extends IntentService {
       if (favoritesCursor.getCount() > 0) {
         Art art = null;
         Camp camp = null;
+        Event event = null;
         ArrayList<Parcelable> favoritesList = new ArrayList<Parcelable>();
         favoritesCursor.moveToFirst();
         while (favoritesCursor.isAfterLast() == false) {
@@ -165,7 +167,18 @@ public class DBLocalService extends IntentService {
             camp.setLongitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LONGITIUDE)));
             favoritesList.add(camp);
           } else if (expressionType.equalsIgnoreCase("event")) {
-            // to do
+            event = new Event();
+            event.setId(favoritesCursor.getString(favoritesCursor
+                .getColumnIndex(FavoritesMetaData.FAVORITE_EXPRESSION_ID)));
+            event.setTitle(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_NAME)));
+            event.setDescription(favoritesCursor.getString(favoritesCursor
+                .getColumnIndex(FavoritesMetaData.FAVORITE_DESCRIPTION)));
+            event.setContact_email(favoritesCursor.getString(favoritesCursor
+                .getColumnIndex(FavoritesMetaData.FAVORITE_CONTACT_EMAIL)));
+            event.setUrl(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_URL)));
+            event.setLatitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LATITIDE)));
+            event.setLongitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LONGITIUDE)));
+            favoritesList.add(event);
           }
           favoritesCursor.moveToNext();
         }

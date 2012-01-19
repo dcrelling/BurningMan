@@ -27,7 +27,7 @@ public class EventList extends ListActivity {
 
   private ArrayList<Parcelable> eventList = null;
   private ExpressionListAdapter expressionListAdapter;
-  static final String EVENT_URL = "http://earth.burningman.com/api/0.1/2009/event/";
+  static final String EVENT_URL = "http://earth.burningman.com/api/0.1/2009/event/1676/";
   private static final String TAG = "event";
   ProgressDialog dialog = null;
 

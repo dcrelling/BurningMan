@@ -88,7 +88,7 @@ public class ExpressionDetailAdapter {
       TextView nameLbl = (TextView) v.findViewById(R.id.EDTextViewLbl1);
       nameLbl.setText("Event Name: ");
       TextView name = (TextView) v.findViewById(R.id.EDTextViewDta1);
-      name.setText(eventItem.getName());
+      name.setText(eventItem.getTitle());
 
       TextView descriptionLbl = (TextView) v.findViewById(R.id.EDTextViewLbl2);
       descriptionLbl.setText("Event Description: ");
