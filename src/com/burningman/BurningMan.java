@@ -83,9 +83,12 @@ public class BurningMan extends Activity {
     startActivity(intent);
   }
 
+  
   protected void displayMap() {
     Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+    intent.putExtra("latitude", "40.78231");
+    intent.putExtra("longitude", "-119.21282");
     startActivity(intent);
-  }
+  } 
 
 }
