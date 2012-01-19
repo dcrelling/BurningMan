@@ -42,7 +42,7 @@ public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
         TextView artName = (TextView) v.findViewById(R.id.TVExpLstDta1);
         TextView artDescription = (TextView) v.findViewById(R.id.TVExpLstDta2);
         if (artImage != null) {
-          artImage.setImageResource(R.drawable.art_lst_row);
+          artImage.setImageResource(R.drawable.ic_menu_dice);
         }
 
         if (artNameLbl != null) {
@@ -84,7 +84,7 @@ public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
           }
 
           if (eventImage != null) {
-            eventImage.setImageResource(R.drawable.event_lst_row);
+            eventImage.setImageResource(R.drawable.ic_menu_music);
           }
           if (eventName != null) {
             eventName.setText(event.getTitle());
@@ -115,7 +115,7 @@ public class ExpressionListAdapter extends ArrayAdapter<Parcelable> {
         }
 
         if (campImage != null) {
-          campImage.setImageResource(R.drawable.camp_lst_row);
+          campImage.setImageResource(R.drawable.ic_menu_sun);
         }
         if (campName != null) {
           campName.setText(camp.getName());
