@@ -18,6 +18,8 @@ public class EventDetail extends Activity {
   private static final String ITEM_ADDED = "Has Been Added To Your Favorites";
   private static final String ITEM_ALREDY_ADDED = "Is Already In Your Favorites";
   private static final String ERROR = "ERROR: A Error Was Encountered Could Not Add To Favorites";
+  private static final String NO_LOCATION = "This item has no location information associated to it. Can't map it!";
+
 
   /** Called when the activity is first created. */
 
@@ -67,10 +69,14 @@ public class EventDetail extends Activity {
     Button mapItButton = (Button) findViewById(R.id.ButtonMap);
     mapItButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
-        intent.putExtra("latitude", eventItem.getLatitude());
-        intent.putExtra("longitude", eventItem.getLongitude());
-        startActivity(intent);
+        if(((eventItem.getLatitude() != null && !eventItem.getLatitude().equals("")) && (eventItem.getLongitude() != null && !eventItem.getLongitude().equals(""))) ){
+          Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+          intent.putExtra("latitude", eventItem.getLatitude());
+          intent.putExtra("longitude", eventItem.getLongitude());
+          startActivity(intent);
+        }else{
+          Toast.makeText(getApplicationContext(), NO_LOCATION, Toast.LENGTH_SHORT).show();
+        }
       }
     });
 
