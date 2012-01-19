@@ -39,7 +39,7 @@ public class ArtDetail extends Activity {
           dbAdapter.open();
           if (dbAdapter.getFavorite(artItem.getId()).getCount() <= 0) {
             dbAdapter.insertFavorite(artItem.getId(), artItem.getName(), "art", artItem.getContact_email(),
-                artItem.getUrl(), artItem.getDescription());
+                artItem.getUrl(), artItem.getDescription(), artItem.getLatitude(), artItem.getLongitude());
             Toast.makeText(getApplicationContext(), artItem.getName() + " " + ITEM_ADDED, Toast.LENGTH_SHORT).show();
           } else {
             Toast.makeText(getApplicationContext(), artItem.getName() + " " + ITEM_ALREDY_ADDED, Toast.LENGTH_SHORT)

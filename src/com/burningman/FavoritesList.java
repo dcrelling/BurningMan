@@ -75,7 +75,11 @@ public class FavoritesList extends ListActivity {
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int postion, long id) {
         Intent intent = new Intent("com.burningman.FavoritesDetail");
-        intent.putExtra("favoritesItem", (Parcelable) parent.getAdapter().getItem(postion));
+        Expression expressionItem = (Expression) parent.getAdapter().getItem(postion);
+        Parcelable favoriteItem = (Parcelable) parent.getAdapter().getItem(postion);
+        intent.putExtra("favoritesItem", favoriteItem);
+        intent.putExtra("latitude", expressionItem.getLatitude());
+        intent.putExtra("longitude", expressionItem.getLongitude());
         startActivity(intent);
       }
     });

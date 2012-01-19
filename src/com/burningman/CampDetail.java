@@ -38,7 +38,7 @@ public class CampDetail extends Activity {
           dbAdapter.open();
           if (dbAdapter.getFavorite(campItem.getId()).getCount() <= 0) {
             dbAdapter.insertFavorite(campItem.getId(), campItem.getName(), "camp", campItem.getContact_email(),
-                campItem.getUrl(), campItem.getDescription());
+                campItem.getUrl(), campItem.getDescription(), campItem.getLatitude(), campItem.getLongitude());
             Toast.makeText(getApplicationContext(), campItem.getName() + " " + ITEM_ADDED, Toast.LENGTH_SHORT).show();
           } else {
             Toast.makeText(getApplicationContext(), campItem.getName() + " " + ITEM_ALREDY_ADDED, Toast.LENGTH_SHORT)

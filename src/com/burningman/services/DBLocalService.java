@@ -148,6 +148,8 @@ public class DBLocalService extends IntentService {
             art.setContact_email(favoritesCursor.getString(favoritesCursor
                 .getColumnIndex(FavoritesMetaData.FAVORITE_CONTACT_EMAIL)));
             art.setUrl(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_URL)));
+            art.setLatitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LATITIDE)));
+            art.setLongitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LONGITIUDE)));
             favoritesList.add(art);
           } else if (expressionType.equalsIgnoreCase("camp")) {
             camp = new Camp();
@@ -159,6 +161,8 @@ public class DBLocalService extends IntentService {
             camp.setContact_email(favoritesCursor.getString(favoritesCursor
                 .getColumnIndex(FavoritesMetaData.FAVORITE_CONTACT_EMAIL)));
             camp.setUrl(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_URL)));
+            camp.setLatitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LATITIDE)));
+            camp.setLongitude(favoritesCursor.getString(favoritesCursor.getColumnIndex(FavoritesMetaData.FAVORITE_LONGITIUDE)));
             favoritesList.add(camp);
           } else if (expressionType.equalsIgnoreCase("event")) {
             // to do

@@ -15,7 +15,7 @@ import android.util.Log;
 public class BurningmanDBAdapter {
 
   public static final String DATABASE_NAME = "burningman";
-  public static final int DATABASE_VERSION = 10;
+  public static final int DATABASE_VERSION = 11;
   public static final String FAVORITES_TABLE_NAME = "favorites";
   public static final String REST_REQUEST_TABLE_NAME = "rest_request";
   
@@ -23,7 +23,7 @@ public class BurningmanDBAdapter {
   + FavoritesMetaData.FAVORITE_PRIMAY_ID + " INTEGER PRIMARY KEY," + FavoritesMetaData.FAVORITE_EXPRESSION_ID
   + " TEXT, " + FavoritesMetaData.FAVORITE_TYPE + " TEXT, " + FavoritesMetaData.FAVORITE_NAME + " TEXT, "
   + FavoritesMetaData.FAVORITE_CONTACT_EMAIL + " TEXT, " + FavoritesMetaData.FAVORITE_URL + " TEXT, "
-  + FavoritesMetaData.FAVORITE_DESCRIPTION + " TEXT, " + FavoritesMetaData.CREATED_DATE + " DATE DEFAULT CURRENT_DATE)";
+  + FavoritesMetaData.FAVORITE_DESCRIPTION + " TEXT, " + FavoritesMetaData.FAVORITE_LATITIDE + " TEXT, " + FavoritesMetaData.FAVORITE_LONGITIUDE + " TEXT, " + FavoritesMetaData.CREATED_DATE + " DATE DEFAULT CURRENT_DATE)";
   
   public static final String CREATE_REST_REQUEST_TABLE = "CREATE TABLE " + RestRequestMetaData.TABLE_NAME + "("
   + RestRequestMetaData.REST_REQUEST_PRIMAY_ID + " INTEGER PRIMARY KEY," + RestRequestMetaData.REST_REQUEST_REQUEST_ID + " TEXT,"
@@ -54,6 +54,8 @@ public class BurningmanDBAdapter {
     public static final String FAVORITE_DESCRIPTION = "description";
     public static final String FAVORITE_CONTACT_EMAIL = "contact_email";
     public static final String FAVORITE_URL = "url";
+    public static final String FAVORITE_LATITIDE = "latitude";
+    public static final String FAVORITE_LONGITIUDE = "longitude";
     public static final String CREATED_DATE = "date_created";
 
   }
@@ -115,7 +117,7 @@ public class BurningmanDBAdapter {
     return db.query(BurningmanDBAdapter.FAVORITES_TABLE_NAME, new String[]{FavoritesMetaData.FAVORITE_PRIMAY_ID,
         FavoritesMetaData.FAVORITE_EXPRESSION_ID, FavoritesMetaData.FAVORITE_TYPE, FavoritesMetaData.FAVORITE_NAME,
         FavoritesMetaData.FAVORITE_CONTACT_EMAIL, FavoritesMetaData.FAVORITE_URL,
-        FavoritesMetaData.FAVORITE_DESCRIPTION, FavoritesMetaData.CREATED_DATE}, null, null, null, null, null);
+        FavoritesMetaData.FAVORITE_DESCRIPTION, FavoritesMetaData.FAVORITE_LATITIDE, FavoritesMetaData.FAVORITE_LONGITIUDE, FavoritesMetaData.CREATED_DATE}, null, null, null, null, null);
   }
 
   // ---retrieves a particular expression from favorites---
@@ -130,7 +132,7 @@ public class BurningmanDBAdapter {
   }
 
   // ---insert a favorite into the database---
-  public long insertFavorite(String id, String name, String type, String conatct_email, String url, String description) {
+  public long insertFavorite(String id, String name, String type, String conatct_email, String url, String description, String latitude, String longitude) {
     ContentValues initialValues = new ContentValues();
     initialValues.put(FavoritesMetaData.FAVORITE_EXPRESSION_ID, id);
     initialValues.put(FavoritesMetaData.FAVORITE_TYPE, type);
@@ -138,6 +140,8 @@ public class BurningmanDBAdapter {
     initialValues.put(FavoritesMetaData.FAVORITE_CONTACT_EMAIL, conatct_email);
     initialValues.put(FavoritesMetaData.FAVORITE_URL, url);
     initialValues.put(FavoritesMetaData.FAVORITE_DESCRIPTION, description);
+    initialValues.put(FavoritesMetaData.FAVORITE_LATITIDE, latitude);
+    initialValues.put(FavoritesMetaData.FAVORITE_LONGITIUDE, longitude);
     return db.insert(BurningmanDBAdapter.FAVORITES_TABLE_NAME, null, initialValues);
 
   }
