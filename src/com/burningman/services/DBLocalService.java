@@ -11,8 +11,8 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcelable;
 import android.os.RemoteException;
-import android.widget.Toast;
 
+import com.burningman.AppStatus;
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
 import com.burningman.beans.Expression;
@@ -54,52 +54,67 @@ public class DBLocalService extends IntentService {
     Message msg = Message.obtain();
     Bundle data = new Bundle();
     dbAdapter = new BurningmanDBAdapter(this);
-
-    try {
-      dBCursor = getRequestData(expressionType);
-    } catch (SQLException e) {
-      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
-      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
-    } catch (DBException e) {
-      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
-      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+    if (AppStatus.getInstance(this).isOnline(this)) {
+      // if there is a network connection try to get non expired from db if nothing found use 
+      // BM rest service
+      try {
+        dBCursor = getUnexpiredRestRequestData(expressionType);
+      } catch (SQLException e) {
+        data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+      } catch (DBException e) {
+        data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+      }
+      
+    }else{
+      //if there is not a a network connection then just get the latest created rest request
+      try {
+        dBCursor = getExpiredRestRequestData(expressionType);
+      } catch (SQLException e) {
+        data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+      } catch (DBException e) {
+        data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+      }
     }
-
-    if (dBCursor != null) {
-      if (dBCursor.getCount() > 0) {
-        try {
-          dBCursor.moveToFirst();
-          data.putBoolean(DBLocalService.QUERY_RESULTS_FOUND, true);
-          data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
-          ArrayList<Parcelable> expressionList = convertRequestData(dBCursor, expressionType);
-          data.putParcelableArrayList(Expression.EXPRESSION_LIST_KEY, expressionList);
-        } catch (Exception e) {
-          // add error handle
+      
+      if (dBCursor != null) {
+        if (dBCursor.getCount() > 0) {
+          try {
+            dBCursor.moveToFirst();
+            data.putBoolean(DBLocalService.QUERY_RESULTS_FOUND, true);
+            data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
+            ArrayList<Parcelable> expressionList = convertRequestData(dBCursor, expressionType);
+            data.putParcelableArrayList(Expression.EXPRESSION_LIST_KEY, expressionList);
+          } catch (Exception e) {
+            // add error handle
+            data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
+            data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+          }
+        } else {
           data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
-          data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
+          data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
         }
       } else {
         data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
-        data.putBoolean(DBLocalService.QUERY_ERROR_NOT_ENCOUNTERED, true);
+        data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
       }
-    } else {
-      data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
-      data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
-    }
 
-    if (dBCursor != null) {
-      dBCursor.close();
-    }
-    if (dbAdapter != null) {
-      dbAdapter.close();
-      dbAdapter = null;
-    }
-    msg.setData(data);
-    try {
-      messenger.send(msg);
-    } catch (RemoteException re) {
-      // TODO: handle exception
-    }
+      if (dBCursor != null) {
+        dBCursor.close();
+      }
+      if (dbAdapter != null) {
+        dbAdapter.close();
+        dbAdapter = null;
+      }
+      msg.setData(data);
+      try {
+        messenger.send(msg);
+      } catch (RemoteException re) {
+        // TODO: handle exception
+      }
   }
 
   private void getFavoritesData() {
@@ -177,10 +192,20 @@ public class DBLocalService extends IntentService {
 
   }
 
-  private Cursor getRequestData(String expressionType) throws DBException {
+  private Cursor getUnexpiredRestRequestData(String expressionType) throws DBException {
     try {
       dbAdapter.open();
-      return dbAdapter.getRestRequests(expressionType);
+      return dbAdapter.getUnexpiredRestRequests(expressionType);
+    } catch (SQLException e) {
+      dbAdapter.close();
+      throw new DBException(e.toString());
+    }
+  }
+  
+  private Cursor getExpiredRestRequestData(String expressionType) throws DBException {
+    try {
+      dbAdapter.open();
+      return dbAdapter.getExpiredRestRequests(expressionType);
     } catch (SQLException e) {
       dbAdapter.close();
       throw new DBException(e.toString());

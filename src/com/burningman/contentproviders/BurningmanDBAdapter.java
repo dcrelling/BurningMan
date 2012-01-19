@@ -143,10 +143,17 @@ public class BurningmanDBAdapter {
   }
   
 //---retrieves a rest request by type thats not expired from the rest request table---
-  public Cursor getRestRequests(String type) {
+  public Cursor getUnexpiredRestRequests(String type) {
     return db.query(BurningmanDBAdapter.REST_REQUEST_TABLE_NAME, new String[]{RestRequestMetaData.REST_REQUEST_PRIMAY_ID,
         RestRequestMetaData.REST_REQUEST_REQUEST_ID, RestRequestMetaData.REST_REQUEST_STATUS, RestRequestMetaData.REST_REQUEST_TYPE,
         RestRequestMetaData.REST_REQUEST_VALUE, RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE, RestRequestMetaData.CREATED_DATE}, RestRequestMetaData.REST_REQUEST_TYPE + "=" + "'" + type +"'" + " AND " + RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE + " > " + "'" + formatDate(getCurrentDate()) + "'"  , null, null, null, RestRequestMetaData.CREATED_DATE );
+  }
+  
+//---retrieves a rest request by type thats is expired from the rest request table used when there is no network connection---
+  public Cursor getExpiredRestRequests(String type) {
+    return db.query(BurningmanDBAdapter.REST_REQUEST_TABLE_NAME, new String[]{RestRequestMetaData.REST_REQUEST_PRIMAY_ID,
+        RestRequestMetaData.REST_REQUEST_REQUEST_ID, RestRequestMetaData.REST_REQUEST_STATUS, RestRequestMetaData.REST_REQUEST_TYPE,
+        RestRequestMetaData.REST_REQUEST_VALUE, RestRequestMetaData.REST_REQUEST_EXPIRATION_DATE, RestRequestMetaData.CREATED_DATE}, RestRequestMetaData.REST_REQUEST_TYPE + "=" + "'" + type +"'", null, null, null, RestRequestMetaData.CREATED_DATE );
   }
   
 //---insert a rest request from burning man web service into the database---
