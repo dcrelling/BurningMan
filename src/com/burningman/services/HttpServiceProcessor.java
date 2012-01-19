@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.SQLException;
+import android.util.Log;
 
 import com.burningman.contentproviders.BurningmanDBAdapter;
 import com.burningman.contentproviders.HttpProvider;
@@ -31,6 +32,7 @@ public class HttpServiceProcessor {
         dbAdapter.close();
         dbAdapter = null;
       } catch (SQLException e) {
+        Log.v("HTTPService Processor ", e.toString());
         throw new DBException(e.toString());
       } 
     } else {

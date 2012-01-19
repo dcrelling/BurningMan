@@ -11,6 +11,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.Parcelable;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.burningman.AppStatus;
 import com.burningman.beans.Art;
@@ -60,9 +61,11 @@ public class DBLocalService extends IntentService {
       try {
         dBCursor = getUnexpiredRestRequestData(expressionType);
       } catch (SQLException e) {
+        Log.v("DBLocalService ", e.toString());
         data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
         data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
       } catch (DBException e) {
+        Log.v("DBLocalService ", e.toString());
         data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
         data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
       }
@@ -72,9 +75,11 @@ public class DBLocalService extends IntentService {
       try {
         dBCursor = getExpiredRestRequestData(expressionType);
       } catch (SQLException e) {
+        Log.v("DBLocalService ", e.toString());
         data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
         data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
       } catch (DBException e) {
+        Log.v("DBLocalService ", e.toString());
         data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
         data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
       }
@@ -90,6 +95,7 @@ public class DBLocalService extends IntentService {
             data.putParcelableArrayList(Expression.EXPRESSION_LIST_KEY, expressionList);
           } catch (Exception e) {
             // add error handle
+            Log.v("DBLocalService ", e.toString());
             data.putBoolean(DBLocalService.QUERY_RESULTS_NOT_FOUND, true);
             data.putBoolean(DBLocalService.QUERY_ERROR_ENCOUNTERED, true);
           }
@@ -113,7 +119,7 @@ public class DBLocalService extends IntentService {
       try {
         messenger.send(msg);
       } catch (RemoteException re) {
-        // TODO: handle exception
+        Log.v("DBLocalService ", re.toString());
       }
   }
 
@@ -184,7 +190,7 @@ public class DBLocalService extends IntentService {
     try {
       messenger.send(msg);
     } catch (RemoteException re) {
-      // TODO: handle exception
+      Log.v("DBLocalService ", re.toString());
     }  
   }
 
@@ -197,6 +203,7 @@ public class DBLocalService extends IntentService {
       dbAdapter.open();
       return dbAdapter.getUnexpiredRestRequests(expressionType);
     } catch (SQLException e) {
+      Log.v("DBLocalService ", e.toString());
       dbAdapter.close();
       throw new DBException(e.toString());
     }
@@ -207,6 +214,7 @@ public class DBLocalService extends IntentService {
       dbAdapter.open();
       return dbAdapter.getExpiredRestRequests(expressionType);
     } catch (SQLException e) {
+      Log.v("DBLocalService ", e.toString());
       dbAdapter.close();
       throw new DBException(e.toString());
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
+import android.util.Log;
 
 import com.burningman.exception.DBException;
 import com.burningman.exception.HTTPException;
@@ -50,15 +51,17 @@ public class HttpLocalService extends IntentService {
       httpServiceProcessor.process();
       data.putBoolean(HttpLocalService.HTTP_SERVICE_SUCESSFULL, true);
     } catch (HTTPException e) {
+      Log.v("HTTPLocalService ", e.toString());
       data.putBoolean(HttpLocalService.HTTP_SERVICE_FAILURE, true);
     } catch (DBException e) {
+      Log.v("HTTPLocalService ", e.toString());
       data.putBoolean(HttpLocalService.HTTP_SERVICE_FAILURE, true);
     }
     msg.setData(data);
     try {
       messenger.send(msg);
     } catch (RemoteException re) {
-      // TODO: handle exception
+      Log.v("HTTPLocalService ", re.toString());
     }
 
   }

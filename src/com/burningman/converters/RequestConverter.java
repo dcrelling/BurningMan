@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.burningman.beans.Art;
 import com.burningman.beans.Camp;
@@ -57,7 +58,7 @@ public class RequestConverter {
         artList.add(art);
       }
     } catch (JSONException e) {
-      // TODO Auto-generated catch block
+      Log.v("RequestConverter ", e.toString());
     }
     return artList;
   }
@@ -92,7 +93,7 @@ public class RequestConverter {
         campList.add(camp);
       }
     } catch (JSONException e) {
-      // TODO Auto-generated catch block
+      Log.v("RequestConverter ", e.toString());
     }
     return campList;
   }
@@ -126,7 +127,7 @@ public class RequestConverter {
         eventList.add(event);
       }
     } catch (JSONException e) {
-      // TODO Auto-generated catch block
+      Log.v("RequestConverter ", e.toString());
     }
     return eventList;
   }

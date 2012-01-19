@@ -12,6 +12,7 @@ import org.apache.http.client.methods.HttpGet;
 
 import android.app.Activity;
 import android.app.Service;
+import android.util.Log;
 
 import com.burningman.application.ApplicationEx;
 import com.burningman.exception.HTTPException;
@@ -35,11 +36,13 @@ public class HttpProvider {
           sb.append(line);
         }
       } catch (IOException e) {
+        Log.v("HttpProvider ", e.toString());
         throw new HTTPException(e.toString());
       } finally {
         try {
           instream.close();
         } catch (IOException e) {
+          Log.v("HttpProvider ", e.toString());
           throw new HTTPException(e.toString());
         }
       }
@@ -48,10 +51,13 @@ public class HttpProvider {
       // page = EntityUtils.toString(response.getEntity());
       // System.out.println(page);
     } catch (IOException e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     }catch (ParseException e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     } catch (Exception e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     }
     if (httpContent != null) {
@@ -80,23 +86,26 @@ public class HttpProvider {
           sb.append(line);
         }
       } catch (IOException e) {
+        Log.v("HttpProvider ", e.toString());
         throw new HTTPException(e.toString());
       } finally {
         try {
           instream.close();
         } catch (IOException e) {
+          Log.v("HttpProvider ", e.toString());
           throw new HTTPException(e.toString());
         }
       }
       httpContent = sb.toString();
 
-      // page = EntityUtils.toString(response.getEntity());
-      // System.out.println(page);
     } catch (IOException e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     } catch (ParseException e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     } catch (Exception e) {
+      Log.v("HttpProvider ", e.toString());
       throw new HTTPException(e.toString());
     }
     if (httpContent != null) {
