@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.burningman"
     android:versionCode="1"
@@ -84,6 +85,15 @@
         <activity android:name="FavoritesDetail" >
             <intent-filter >
                 <action android:name="com.burningman.FavoritesDetail" >
+                </action>
+
+                <category android:name="android.intent.category.DEFAULT" >
+                </category>
+            </intent-filter>
+        </activity>
+        <activity android:name="BurningMan" >
+            <intent-filter >
+                <action android:name="com.burningman.BurningMan" >
                 </action>
 
                 <category android:name="android.intent.category.DEFAULT" >

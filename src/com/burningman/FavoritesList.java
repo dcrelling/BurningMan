@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Parcelable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -90,6 +93,68 @@ public class FavoritesList extends ListActivity {
     DBServiceHelper dBServiceHelper = new DBServiceHelper();
     dBServiceHelper.registerCallBackHandler(myFavoritesListDBHandler);
     dBServiceHelper.executeOperation(FavoritesList.TAG, this.getBaseContext(), DBServiceHelper.GET_FAVORITES);
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.layout.main_menu, menu);
+    MenuItem favoritesMenuItem = menu.findItem(R.id.favorites_menu);
+    favoritesMenuItem.setVisible(false);
+    favoritesMenuItem.setEnabled(false);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+      case R.id.home_menu :
+        displayHome();
+        return true;
+      case R.id.art_menu :
+        displayArtList();
+        return true;
+      case R.id.events_menu :
+        displayEventList();
+        return true;
+      case R.id.camps_menu :
+        displayCampList();
+        return true;
+      case R.id.map_menu :
+        displayMap();
+        return true;
+      default :
+        return super.onOptionsItemSelected(item);
+    }
+
+  }
+
+  protected void displayArtList() {
+    Intent intent = new Intent("com.burningman.ArtList");
+    startActivity(intent);
+  }
+
+  protected void displayEventList() {
+    Intent intent = new Intent("com.burningman.EventList");
+    startActivity(intent);
+  }
+
+  protected void displayCampList() {
+    Intent intent = new Intent("com.burningman.CampList");
+    startActivity(intent);
+  }
+
+  protected void displayHome() {
+    Intent intent = new Intent("com.burningman.BurningMan");
+    startActivity(intent);
+  }
+
+  protected void displayMap() {
+    Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+    intent.putExtra("latitude", "40.78231");
+    intent.putExtra("longitude", "-119.21282");
+    startActivity(intent);
   }
 
 }

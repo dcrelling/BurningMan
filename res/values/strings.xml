@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hello World, BurningMan!</string>
-    <string name="app_name">Burning Man</string>
+    <string name="app_name">BurnDroid</string>
 
 <color name="White">#FFFFFF</color>
 <string name="art_list">Art</string>
@@ -9,6 +9,7 @@
 <string name="camp_list">Camps</string>
 <string name="favorite_list">Favorites</string>
 <string name="map">Map</string>
+<string name="home">Home</string>
 <string name="local_service_started">Local Service Has Started</string>
 <string name="local_service_stopped">The Local Service Has Stopped</string>
 <string name="local_service_connected">local_service_connected</string>

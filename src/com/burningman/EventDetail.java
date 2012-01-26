@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -80,5 +83,67 @@ public class EventDetail extends Activity {
       }
     });
 
+  }
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.layout.main_menu, menu);
+    MenuItem eventsMenuItem = menu.findItem(R.id.events_menu);
+    eventsMenuItem.setVisible(false);
+    eventsMenuItem.setEnabled(false);
+    return true;
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+      case R.id.home_menu :
+        displayHome();
+        return true;
+      case R.id.art_menu :
+        displayArtList();
+        return true;
+      case R.id.camps_menu :
+        displayCampList();
+        return true;
+      case R.id.favorites_menu :
+        displayFavortiesList();
+        return true;
+      case R.id.map_menu :
+        displayMap();
+        return true;
+      default :
+        return super.onOptionsItemSelected(item);
+    }
+
+  }
+
+  protected void displayArtList() {
+    Intent intent = new Intent("com.burningman.ArtList");
+    startActivity(intent);
+  }
+
+  protected void displayHome() {
+    Intent intent = new Intent("com.burningman.BurningMan");
+    startActivity(intent);
+  }
+
+  protected void displayCampList() {
+    Intent intent = new Intent("com.burningman.CampList");
+    startActivity(intent);
+  }
+
+  protected void displayFavortiesList() {
+    Intent intent = new Intent("com.burningman.FavoritesList");
+    startActivity(intent);
+  }
+
+  protected void displayMap() {
+    Intent intent = new Intent("com.burningman.OpenStreetMapActivity");
+    intent.putExtra("latitude", "40.78231");
+    intent.putExtra("longitude", "-119.21282");
+    startActivity(intent);
   }
 }

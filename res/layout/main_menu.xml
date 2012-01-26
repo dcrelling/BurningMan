@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home_menu"
+        android:icon="@drawable/ic_menu_home"
+        android:title="@string/home" />
     <item android:id="@+id/art_menu"
-        android:icon="@drawable/ic_menu_dice"
+        android:icon="@drawable/ic_menu_art"
         android:title="@string/art_list" />
     <item android:id="@+id/events_menu"
-        android:icon="@drawable/ic_menu_music"
+        android:icon="@drawable/ic_menu_event"
         android:title="@string/event_list" />
     <item android:id="@+id/camps_menu"
-        android:icon="@drawable/ic_menu_sun"
+        android:icon="@drawable/ic_menu_camp"
         android:title="@string/camp_list"/>
      <item android:id="@+id/favorites_menu"
-        android:icon="@drawable/ic_menu_love"
+        android:icon="@drawable/ic_menu_favorite"
         android:title="@string/favorite_list" />
      <item android:id="@+id/map_menu"
-        android:icon="@drawable/ic_menu_globe"
+        android:icon="@drawable/ic_menu_map"
         android:title="@string/map"/>
 </menu>

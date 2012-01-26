@@ -21,6 +21,9 @@ public class BurningMan extends Activity {
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.layout.main_menu, menu);
+    MenuItem homeMenuItem = menu.findItem(R.id.home_menu);
+    homeMenuItem.setVisible(false);
+    homeMenuItem.setEnabled(false);
     return true;
   }
 
